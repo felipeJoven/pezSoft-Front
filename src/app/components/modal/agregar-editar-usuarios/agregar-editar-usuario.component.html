@@ -1,0 +1,166 @@
+<p-dialog
+  header="{{ modalType }} Usuarios"
+  [(visible)]="displayAddEditModal"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeModal()"
+>
+  <form [formGroup]="form" class="usuarios-form">
+    <div class="row">
+      <div class="field">
+        <label class="block" for="nombre">Nombre</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="nombre"
+          formControlName="nombre"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['nombre'].invalid && form.controls['nombre'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+      <div class="field">
+        <label class="block" for="apellido">Apellido</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="apellido"
+          formControlName="apellido"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['apellido'].invalid && form.controls['apellido'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label class="block" for="username">Usuario</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="username"
+          formControlName="username"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['username'].invalid && form.controls['username'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+      <div class="field">
+        <label class="block" for="email">Correo</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="email"
+          formControlName="email"
+        />
+        <small
+          class="p-error block"
+          *ngIf="form.controls['email'].invalid && form.controls['email'].dirty"
+          >El campo es requerido</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label class="block" for="password">Contraseña</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="password"
+          formControlName="password"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['password'].invalid && form.controls['password'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+      <div class="field">
+        <label class="block" for="email">Confirmar contraseña</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="confirmPassword"
+          formControlName="confirmPassword"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['confirmPassword'].invalid &&
+            form.controls['confirmPassword'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label class="block" for="telefono">Teléfono</label>
+        <input
+          class="p-2 rounded-xl border border border-gray-500"
+          type="text"
+          pInputText
+          id="telefono"
+          formControlName="telefono"
+          (keypress)="onKeyPress($event)"
+        />
+        <small
+          class="p-error block"
+          *ngIf="
+            form.controls['telefono'].invalid && form.controls['telefono'].dirty
+          "
+          >El campo es requerido</small
+        >
+      </div>
+      <div class="field">
+        <label class="block" for="rol">Rol</label>
+        <select class="select" name="rol" type="text" formControlName="rol">
+          <option>Seleccionar una Opcion</option>
+          <option *ngFor="let rol of rol" [value]="rol.id">
+            {{ rol.name }}
+          </option>
+        </select>
+        <small
+          class="p-error block"
+          *ngIf="form.controls['rol'].invalid && form.controls['rol'].dirty"
+          >El campo es requerido</small
+        >
+      </div>
+    </div>
+  </form>
+  
+  <ng-template pTemplate="footer">
+    <p-button
+      class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
+      (click)="closeModal()"
+      label="Cancel"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      (click)="agregarEditarUsuario()"
+      label="{{ modalType }}"
+      [disabled]="form.invalid"
+    ></p-button>
+  </ng-template>
+</p-dialog>

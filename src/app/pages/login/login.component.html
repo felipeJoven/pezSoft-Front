@@ -1,0 +1,38 @@
+<section>
+  <div>
+    <div class="container">
+      <div class="form-container">
+        <h2>Iniciar Sesión</h2>
+        <form novalidate [formGroup]="formulario" (ngSubmit)="submit()">
+          <div>
+            <label>Usuario<strong>*</strong></label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Usuario"
+              id="usuario"
+              required
+              formControlName="email"
+            />
+          </div>
+          <div>
+            <label>Contaseña<strong>*</strong></label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              formControlName="password"
+            />
+          </div>
+          <button type="submit">Ingresar</button>
+          <div>
+            <a class="forgot-password" href="#">Olvidaste tu contraseña?</a>
+          </div>
+        </form>
+        <div>
+          <img src="../../../assets/img/pez-soft.png" alt="Pez-soft Logo" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

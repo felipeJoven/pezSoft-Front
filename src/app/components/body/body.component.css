@@ -1,0 +1,44 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh; 
+    flex-direction: column;
+    align-items: center; 
+    background: radial-gradient(ellipse 80% 50% at 50% 50%, #fff, #b9d2ef 80%, #8fb9e3 100%);
+}
+
+
+/* Pantallas más pequeñas*/
+.body-trimmed {
+    width: calc(100% - 16.5625rem);
+    margin-left: 16.5625rem;
+    background: radial-gradient(ellipse 80% 50% at 50% 50%, #fff, #77a9e2 80%, #8fb9e3 100%);
+}
+
+/* Pantallas medianas */
+.body-md-screen {
+    width: calc(100% - 5rem);
+    margin-left: 5rem;
+    background: radial-gradient(ellipse 80% 50% at 50% 50%, #fff, #77a9e2 80%, #8fb9e3 100%);
+}
+
+footer {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 10vh; 
+    justify-content: center; 
+    flex-direction: column;
+    justify-content: flex-end; 
+    align-items: center; 
+    background-color: #8fb9e3;
+}

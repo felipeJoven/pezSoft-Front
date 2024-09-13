@@ -1,0 +1,13 @@
+:host >>> .unidadP-form .p-component {
+    width: 100%;
+  } 
+
+
+  .row {
+    display: flex;
+    gap: 10px;
+
+    .field {
+      width: 100%;
+    }
+  }

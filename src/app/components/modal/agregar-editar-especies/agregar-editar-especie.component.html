@@ -1,0 +1,41 @@
+<p-dialog
+    [header]="modalType + ' Especie'"
+    [(visible)]="displayAddEditModal"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeModal()"
+>
+    <form [formGroup]="especieForm" class="especie-form">
+        <div class="field">
+            <label class="block" for="especie">Nombre de especie</label>
+            <input 
+                class="p-2 rounded-xl border border-gray-500" 
+                type="text" 
+                pInputText 
+                id="especie" 
+                formControlName="especie"
+            >
+            <small 
+                class="p-error block"
+                *ngIf="especieForm.get('especie')?.invalid && especieForm.get('especie')?.dirty"
+            >
+                Campo requerido *
+            </small>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
+            (click)="closeModal()"
+            label="Cancelar"
+            styleClass="p-button-text"
+        ></p-button>
+        <p-button
+            class="custom-button"
+            (click)="agregarEditarEspecie()"
+            [label]="modalType"
+            [disabled]="especieForm.invalid"
+        ></p-button>
+    </ng-template>
+</p-dialog>

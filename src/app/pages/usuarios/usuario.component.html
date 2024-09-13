@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="justify-content-between">
+    <div class="h1 bg-gray-500 border-3 border-gray-400">Usuarios</div>
+  </div>
+  <p-table
+    [value]="usuario"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15]"
+  >
+    <ng-template pTemplate="caption">
+      <p-button
+        class="bg-[#EC6708] rounded-xl text-white py-2 px-2 hover:scale-105 duration-300"
+        label="Registrar"
+        (click)="showAddModal()"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>N°</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-usuario>
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ usuario.usuario }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.rol.name }}</td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="bg-cyan-600 text-white p-button-rounded mr-2"
+            (click)="showEdit(usuario.id)"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="bg-red-500 text-white p-button-rounded p-button-danger"
+            (click)="eliminar(usuario.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <app-agregar-editar-usuario
+    *ngIf="displayAddEditModal"
+    [displayAddEditModal]="displayAddEditModal"
+    [selectedUsuario]="selectedUsuario"
+    (clickClose)="hideAddModal($event)"
+    (clickAddEdit)="guardar_editarUsuarioList($event)"
+  ></app-agregar-editar-usuario>
+  <p-confirmDialog header="Delete"></p-confirmDialog>
+  <p-toast position="bottom-right"></p-toast>
+</div>

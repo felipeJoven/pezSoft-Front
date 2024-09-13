@@ -1,0 +1,61 @@
+.card {
+    margin: 0;
+    padding: 0;
+    width: 150vh;
+    height: 100vh;
+  }
+  
+  .table {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fafafa;
+    background-color: #2d44f3;
+    border-radius: 5px;
+  }
+  
+  .custom-button {
+    background-color: #036927;
+    border-radius: 0.75rem;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .custom-button:hover {
+    background-color: #022d11;
+    transform: scale(1.05);
+  }
+  
+  .edit {
+    background-color: #b4a21a;
+    border-radius: 0.75rem;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-right: 1rem; 
+  }
+  
+  .delete {
+    background-color: #ad0c0c;
+    border-radius: 0.75rem;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-left: 1rem; 
+  }
+  
+  .edit:hover, .delete:hover {
+    background-color: #040456;
+    transform: scale(1.05);
+  }
+  
+  th {
+    text-align: center;
+  }
+  
+  td {
+    text-align: center;
+  }

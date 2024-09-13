@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="justify-content-between">
+    <div class="table">Especies</div>
+  </div>
+  <p-table
+    class="border-3 border-gray-400"
+    [value]="especie"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30]"
+  >
+    <ng-template pTemplate="caption">
+      <p-button
+        class="custom-button"
+        label="Registrar una especie"
+        (click)="showAddModal()"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr class="border-2 border-gray-300 w-6/12">
+        <th class="border-2">N°</th>
+        <th class="border-2">Nombre de Especie</th>
+        <th class="border-2">Fecha de Registro</th>
+        <th class="border-2">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-especie>
+      <tr class="hover:bg-gray-300 cursor-pointer duration-300">
+        <td class="border-2">{{ rowIndex + 1 }}</td>
+        <td class="border-2">{{ especie.especie }}</td>
+        <td class="border-2">{{ especie.fechaCreacion }}</td>
+        <td class="border-2">
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="edit"
+            (click)="showEdit(especie.id)"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="delete"
+            (click)="eliminar(especie.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <app-agregar-editar-especie
+    *ngIf="displayAddEditModal"
+    [displayAddEditModal]="displayAddEditModal"
+    [selectedEspecie]="selectedEspecie"
+    (clickClose)="hideAddModal($event)"
+    (clickAddEdit)="guardar_editarEspecieList($event)"
+  ></app-agregar-editar-especie>
+  <p-confirmDialog header="Delete"></p-confirmDialog>
+  <p-toast position="bottom-right"></p-toast>
+</div>
