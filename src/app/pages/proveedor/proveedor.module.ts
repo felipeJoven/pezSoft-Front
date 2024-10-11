@@ -10,12 +10,12 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { EspecieComponent } from './especie.component';
-import { AgregarEditarEspecieModule } from '../../components/modal/agregar-editar-especies/agregar-editar-especie.module';
+import { ProveedorComponent } from './proveedor.component';
+import { AgregarEditarProveedorModule } from '../../components/modal/agergar-editar-proveedores/agregar-editar-proveedor.module';
 
 @NgModule({
   declarations: [
-    EspecieComponent
+    ProveedorComponent
   ],
   imports: [
     CommonModule,
@@ -27,12 +27,9 @@ import { AgregarEditarEspecieModule } from '../../components/modal/agregar-edita
     BrowserAnimationsModule,
     FormsModule,
     DialogModule,
-    AgregarEditarEspecieModule
-],
-  providers: [
-    ConfirmationService,
-    MessageService
-  ]
+    AgregarEditarProveedorModule
+  ],
+  providers: [ConfirmationService,
+  MessageService]
 })
-
-export class EspecieModule { }
+export class ProveedorModule { }

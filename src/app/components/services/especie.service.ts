@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Especie } from '../models/especie';
@@ -12,9 +12,14 @@ export class EspecieService {
 
   constructor( private http: HttpClient) { }
 
-
-  obtenerEspecies(): Observable<Especie[]> {
-    return this.http.get<Especie[]>(this.apiUrl);
+  obtenerEspecies(filtro?: string): Observable<Especie[]> {
+    let params = new HttpParams
+    if (filtro) {
+      params = params.set('filtro', filtro);
+    }
+    return this.http.get<Especie[]>(this.apiUrl, { params }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   obtenerEspeciePorId(id: number): Observable<Especie> {
@@ -38,7 +43,9 @@ export class EspecieService {
   }
 
   eliminarEspecie(id: number): Observable<any>{
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -56,5 +63,4 @@ export class EspecieService {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-
 }

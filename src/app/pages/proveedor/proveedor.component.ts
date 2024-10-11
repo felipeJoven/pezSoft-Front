@@ -1,43 +1,43 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
-import { Especie } from '../../components/models/especie';
-import { EspecieService } from '../../components/services/especie.service';
+import { Proveedor } from '../../components/models/proveedor';
+import { ProveedorService } from '../../components/services/proveedor.service';
 
 @Component({
-  selector: 'app-especie',
-  templateUrl: './especie.component.html',
-  styleUrls: ['./especie.component.css']
+  selector: 'app-proveedor',
+  templateUrl: './proveedor.component.html',
+  styleUrls: ['./proveedor.component.css']
 })
-export class EspecieComponent implements OnInit, OnDestroy {
+export class ProveedorComponent implements OnInit, OnDestroy {
 
-  especie: Especie[] = [];
+  proveedor: Proveedor[] = [];
   filtro: string = '';
   displayAddEditModal = false;
-  selectedEspecie: any = null;
+  selectedProveedor: any = null;
   private subscriptions = new Subscription();
   private filtroSubject = new Subject<string>();
 
   constructor(
-    private especieService: EspecieService,
+    private proveedorService: ProveedorService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
-    this.obtenerEspecies();
+    this.obtenerProveedores();
     this.setupFiltroSubscription();
   }
 
-  showAddModal(): void {
+  showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedEspecie = null;
+    this.selectedProveedor = null;
   }
 
   hideAddModal(isClosed: boolean): void {
     this.displayAddEditModal = !isClosed;
     if (isClosed) {
-      this.obtenerEspecies();
+      this.obtenerProveedores();
     }
   }
 
@@ -47,7 +47,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged()
       ).subscribe(filtro => {
-        this.obtenerEspecies(filtro);
+        this.obtenerProveedores(filtro);
       })
     );
   }
@@ -57,52 +57,65 @@ export class EspecieComponent implements OnInit, OnDestroy {
     this.filtroSubject.next(inputElement.value);
   }
 
-  obtenerEspecies(filtro: string = ''): void {
+  obtenerProveedores(filtro: string = ''): void {
     this.subscriptions.add(
-      this.especieService.obtenerEspecies(filtro).subscribe({
-        next: (especies) => {
-          this.especie = especies;
+      this.proveedorService.obtenerProveedores(filtro).subscribe({
+        next: (proveedor) => {
+          this.proveedor = proveedor;
         },
         error: (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-          console.error('Error al obtener especies:', error);
+          console.error('Error al obtener proveedores:', error);
         }
       })
     );
   }
 
-  guardar_editarEspecieList(newData: Especie): void {
-    if (this.selectedEspecie && newData.id === this.selectedEspecie.id) {
-      const especieIndex = this.especie.findIndex(data => data.id === newData.id);
-      if (especieIndex !== -1) {
-        this.especie[especieIndex] = newData;
+  verTipoIdentificacion(tipoIdentificacionId: number): string {
+    return tipoIdentificacionId === 1 ? 'NIT' :
+      tipoIdentificacionId === 2 ? 'Cédula de ciudadanía' :
+        tipoIdentificacionId === 3 ? 'Cédula de extranjería' :
+          'Tipo desconocido';
+  }
+
+  verTipoProvedor(tipoProvedorId: number): string {
+    return tipoProvedorId === 1 ? 'Peces' :
+      tipoProvedorId === 2 ? 'Alimentos' :
+        'Tipo desconocido';
+  }
+
+  guardar_editarProveedorList(newData: Proveedor): void {
+    if (this.selectedProveedor && newData.id === this.selectedProveedor.id) {
+      const proveedorIndex = this.proveedor.findIndex(data => data.id === newData.id);
+      if (proveedorIndex !== -1) {
+        this.proveedor[proveedorIndex] = newData;
       }
     }
-    this.obtenerEspecies();
+    this.obtenerProveedores();
   }
 
   showEdit(id: number): void {
     this.displayAddEditModal = true;
-    this.selectedEspecie = id;
+    this.selectedProveedor = id;
   }
 
   eliminar(id: number): void {
     this.confirmationService.confirm({
-      message: '¿Quieres eliminar esta especie?',
+      message: '¿Quieres eliminar este proveedor?',
       header: 'Confirmación de eliminación',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Si',
       rejectLabel: 'No',
       accept: () => {
         this.subscriptions.add(
-          this.especieService.eliminarEspecie(id).subscribe({
+          this.proveedorService.eliminarProveedor(id).subscribe({
             next: (response: string) => {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Éxito',
                 detail: response
               });
-              this.especie = this.especie.filter(e => e.id !== id);
+              this.proveedor = this.proveedor.filter(e => e.id !== id);
             },
             error: (error) => {
               this.messageService.add({
@@ -112,7 +125,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
               });
             },
             complete: () => {
-              this.obtenerEspecies();
+              this.obtenerProveedores();
             }
           })
         );

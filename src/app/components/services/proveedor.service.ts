@@ -1,52 +1,53 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http'
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { UnidadProductiva } from '../models/unidad-productiva'
+import { Proveedor } from '../models/proveedor'
 
 @Injectable({
   providedIn: 'root'
 })
-export class UnidadProductivaService {
-  private apiUrl = 'http://localhost:8080/unidad-productiva';
+export class ProveedorService {
+  private apiUrl = 'http://localhost:8080/proveedor'
 
   constructor( private http: HttpClient) { }
 
-  obtenerUnidadesProductivas(filtro?: string): Observable<UnidadProductiva[]> {
+
+  obtenerProveedores(filtro?: string): Observable<Proveedor[]> {
     let params = new HttpParams
     if (filtro) {
       params = params.set('filtro', filtro);
     }
-    return this.http.get<UnidadProductiva[]>(this.apiUrl, { params }).pipe(
+    return this.http.get<Proveedor[]>(this.apiUrl, { params }).pipe(
       catchError(this.handleError)
     );
   }
 
-  obtenerUnidadProductivaPorId(id: number): Observable<UnidadProductiva> {
-    return this.http.get<UnidadProductiva>(this.apiUrl + `/${id}`);
+  obtenerProveedorPorId(id: number): Observable<Proveedor> {
+    return this.http.get<Proveedor>(this.apiUrl + `/${id}`);
   }
 
-  agregarEditarUnidadP(postData: any, selectUnidad: any): Observable<any> {
+  agregarEditarProveedor(postData: any, selectProveedor: any): Observable<any> {
     const headers = new HttpHeaders().set('Accept', 'text/plain');
     const options = { headers: headers, responseType: 'text' as 'json' };
-    if (!selectUnidad) {
+    if (!selectProveedor) {
       return this.http.post(this.apiUrl, postData, options).pipe(
         map(response => ({ message: response })),
         catchError(this.handleError)
       );
     } else {
-      return this.http.put(`${this.apiUrl}/${selectUnidad}`, postData, options).pipe(
+      return this.http.put(`${this.apiUrl}/${selectProveedor}`, postData, options).pipe(
         map(response => ({ message: response })),
         catchError(this.handleError)
       );
     }
   }
 
-  eliminarUnidadProductiva(id: number): Observable<any> {
+  eliminarProveedor(id: number): Observable<any>{
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
       catchError(this.handleError)
     );
   }
-
+  
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';
     if (error.error instanceof ErrorEvent) {

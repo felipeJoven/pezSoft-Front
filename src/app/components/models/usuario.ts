@@ -1,5 +1,5 @@
 import { Rol } from "./rol";
-export class  Usuario {
+export class Usuario {
     id: number;
     usuario: string;
     password: string;
@@ -8,5 +8,5 @@ export class  Usuario {
     apellido: string;
     email: string;
     telefono: number;
-    rol : Rol;
+    rol: Rol;
 }

@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToastModule } from 'primeng/toast';
-import { AgregarEditarUnidadPComponent } from './agregar-editar-unidad-productiva.component';
+import { AgregarEditarProveedorComponent } from './agregar-editar-proveedor.component';
 
 @NgModule({
   declarations: [
-    AgregarEditarUnidadPComponent
+    AgregarEditarProveedorComponent
   ],
   imports: [
     CommonModule,
@@ -21,11 +19,11 @@ import { AgregarEditarUnidadPComponent } from './agregar-editar-unidad-productiv
     FormsModule,
     ButtonModule,
     ReactiveFormsModule,
-    InputNumberModule,
     InputTextModule,
+    InputNumberModule,
     InputTextareaModule,
     ToastModule,
   ],
-  exports: [AgregarEditarUnidadPComponent]
+  exports: [AgregarEditarProveedorComponent]
 })
-export class AgregarEditarUnidadPModule { }
+export class AgregarEditarProveedorModule { }

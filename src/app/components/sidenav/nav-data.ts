@@ -1,11 +1,6 @@
 import { INavbarData } from "./helper";
 
-export const navbarData: INavbarData[] = [
-    {
-        routeLink: 'unidad-productiva',
-        icon: 'fa-solid fa-u',
-        label:'Unidad Productiva'
-    },
+export const navbarData: INavbarData[] = [    
     {
         routeLink: 'lote',
         icon: 'fa-solid fa-l',
@@ -15,6 +10,11 @@ export const navbarData: INavbarData[] = [
         routeLink: 'proveedor',
         icon: 'fa-solid fa-p',
         label:'Proveedor'
+    },
+    {
+        routeLink: 'unidad-productiva',
+        icon: 'fa-solid fa-u',
+        label:'Unidad Productiva'
     },
     {
         routeLink: 'especie',
@@ -28,8 +28,7 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'usuario',
-        icon: 'fa-solid fa-u',
+        icon: 'pi pi-user',
         label:'Usuarios' 
-    }
-    
+    }    
 ]

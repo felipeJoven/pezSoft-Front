@@ -2,6 +2,7 @@
   <div class="justify-content-between">
     <div class="table">Especies</div>
   </div>
+
   <p-table
     class="border-3 border-gray-400"
     [value]="especie"
@@ -9,13 +10,23 @@
     [rows]="10"
     [rowsPerPageOptions]="[10, 20, 30]"
   >
-    <ng-template pTemplate="caption">
-      <p-button
-        class="custom-button"
-        label="Registrar una especie"
-        (click)="showAddModal()"
-      ></p-button>
-    </ng-template>
+  <ng-template pTemplate="caption">
+    <div class="header-container">      
+        <div class="search-container">
+          <span class="search">
+            <i class="pi pi-search"></i>
+          </span>
+          <input type="text" pInputText placeholder="Buscar especies" 
+                 [(ngModel)]="filtro" (input)="onFiltroChange($event)">
+        </div>
+        <p-button
+          class="custom-button"
+          label="Registrar una especie"
+          (click)="showAddModal()"
+        ></p-button>
+    </div>
+  </ng-template>
+  
     <ng-template pTemplate="header">
       <tr class="border-2 border-gray-300 w-6/12">
         <th class="border-2">N°</th>

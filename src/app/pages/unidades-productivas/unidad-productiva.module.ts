@@ -11,8 +11,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-// import { FilterUnidadpModule } from 'src/app/components/filtros/filter-unidadp/filter-unidadp.module';
-import { AgergarEditarUnidadPModule } from '../../components/modal/agregar-editar-unidades-productivas/agregar-editar-unidad-productiva.module';
+import { AgregarEditarUnidadPModule } from '../../components/modal/agregar-editar-unidades-productivas/agregar-editar-unidad-productiva.module';
 
 @NgModule({
   declarations: [
@@ -28,8 +27,7 @@ import { AgergarEditarUnidadPModule } from '../../components/modal/agregar-edita
     BrowserAnimationsModule,
     FormsModule,
     DialogModule,
-    // FilterUnidadpModule,
-    AgergarEditarUnidadPModule  
+    AgregarEditarUnidadPModule  
   ],
   providers: [
     ConfirmationService,

@@ -15,7 +15,7 @@ import { LoginModule } from './pages/login/login.module.js';
 import { UsuarioModule } from './pages/usuarios/usuario.module.js';
 import { EspecieModule } from './pages/especies/especie.module.js';
 import { UnidadProductivaModule } from './pages/unidades-productivas/unidad-productiva.module.js';
-
+import { ProveedorModule } from './pages/proveedor/proveedor.module.js';
 
 @NgModule({
   declarations: [
@@ -33,6 +33,7 @@ import { UnidadProductivaModule } from './pages/unidades-productivas/unidad-prod
     UsuarioModule,
     EspecieModule,
     UnidadProductivaModule,
+    ProveedorModule
   ],
   providers: [
     {

@@ -3,19 +3,19 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import { UnidadProductivaService } from '../../services/unidad-productiva.service';
 @Component({
-  selector: 'app-add-edit-unidadp',
+  selector: 'app-agregar-editar-unidad',
   templateUrl: './agregar-editar-unidad-productiva.component.html',
   styleUrls: ['./agregar-editar-unidad-productiva.component.css']
 })
 
-export class AgergarEditarUnidadPComponent implements OnInit, OnChanges {
+export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
   @Input() selectedUnidadP: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
+  
   modalType = "Guardar";
-
   unidadPForm = this.fb.group({
     unidadP: ["", Validators.required],
     coordenadas: [0, Validators.required],

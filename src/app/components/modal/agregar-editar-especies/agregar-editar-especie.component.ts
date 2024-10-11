@@ -14,8 +14,8 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
   @Input() selectedEspecie: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
+  
   modalType = "Guardar";
-
   especieForm = this.fb.group({
     especie: ["", Validators.required]
   })
@@ -27,7 +27,7 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
   ){}
 
   ngOnInit(): void {
-    this.obtenerEspecies();
+    this.obtenerEspecie();
   }
 
   ngOnChanges(): void {
@@ -40,7 +40,7 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
     }
   }
 
-  obtenerEspecies(){
+  obtenerEspecie(){
     if(this.displayAddEditModal && this.selectedEspecie){
       const especieId = typeof this.selectedEspecie === 'object' ? this.selectedEspecie.id : this.selectedEspecie;
       this.especieService.obtenerEspeciePorId(especieId).subscribe(
@@ -60,7 +60,7 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
       next: (response: any) => {
         this.clickAddEdit.emit(response);
         this.closeModal();
-        this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message});
+        this.messageService.add({severity: 'success', summary: 'Éxito', detail: response.message });
       },
       error: (error) => {
         console.error(error);
