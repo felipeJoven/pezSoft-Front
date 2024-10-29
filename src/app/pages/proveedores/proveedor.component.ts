@@ -71,20 +71,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
     );
   }
 
-  verTipoIdentificacion(tipoIdentificacionId: number): string {
-    return tipoIdentificacionId === 1 ? 'NIT' :
-      tipoIdentificacionId === 2 ? 'Cédula de ciudadanía' :
-        tipoIdentificacionId === 3 ? 'Cédula de extranjería' :
-          'Tipo desconocido';
-  }
-
-  verTipoProvedor(tipoProvedorId: number): string {
-    return tipoProvedorId === 1 ? 'Peces' :
-      tipoProvedorId === 2 ? 'Alimentos' :
-        'Tipo desconocido';
-  }
-
-  guardar_editarProveedorList(newData: Proveedor): void {
+  agregarEditarProveedor(newData: Proveedor): void {
     if (this.selectedProveedor && newData.id === this.selectedProveedor.id) {
       const proveedorIndex = this.proveedor.findIndex(data => data.id === newData.id);
       if (proveedorIndex !== -1) {
@@ -99,7 +86,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
     this.selectedProveedor = id;
   }
 
-  eliminar(id: number): void {
+  eliminarProveedor(id: number): void {
     this.confirmationService.confirm({
       message: '¿Quieres eliminar este proveedor?',
       header: 'Confirmación de eliminación',

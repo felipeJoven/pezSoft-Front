@@ -3,27 +3,18 @@
     <div class="table">Unidades Productivas</div>
   </div>
 
-  <p-table
-    [value]="unidad"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 20, 30]"
-  >
+  <p-table [value]="unidad" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
     <ng-template pTemplate="caption">
-        <div class="header-container">      
-            <div class="search-container">
-              <span class="search">
-                <i class="pi pi-search"></i>
-              </span>
-              <input type="text" pInputText placeholder="Buscar unidades productivas" 
-                     [(ngModel)]="filtro" (input)="onFiltroChange($event)">
-            </div>
-            <p-button
-              class="custom-button"
-              label="Registrar una unidad productiva"
-              (click)="showAddModal()"
-            ></p-button>
+      <div class="header-container">
+        <div class="search-container">
+          <span class="search">
+            <i class="pi pi-search"></i>
+          </span>
+          <input type="text" pInputText placeholder="Buscar unidades productivas" [(ngModel)]="filtro"
+            (input)="onFiltroChange($event)">
         </div>
+        <p-button class="custom-button" label="Registrar una unidad productiva" (click)="showAddModal()"></p-button>
+      </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
@@ -48,31 +39,17 @@
         <td class="border-2">{{ verEstado(unidadP.estado) }}</td>
         <td class="border-2">
           <div class="option">
-          <button
-            pButton
-            icon="pi pi-pencil"
-            class="edit"
-            (click)="showEdit(unidadP.id)"
-          ></button>
-          <button
-            pButton
-            icon="pi pi-trash"
-            class="delete"
-            (click)="eliminar(unidadP.id)"
-          ></button>
+            <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(unidadP.id)"></button>
+            <button pButton icon="pi pi-trash" class="delete" (click)="eliminarUnidad(unidadP.id)"></button>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <app-agregar-editar-unidad
-    *ngIf="displayAddEditModal"
-    [displayAddEditModal]="displayAddEditModal"
-    [selectedUnidadP]="selectedUnidad"
-    (clickClose)="hideAddModal($event)"
-    (clickAddEdit)="guardar_editarUnidadList($event)"
-  ></app-agregar-editar-unidad>
+  <app-agregar-editar-unidad *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
+    [selectedUnidadP]="selectedUnidad" (clickClose)="hideAddModal($event)"
+    (clickAddEdit)="agregarEditarUnidad($event)"></app-agregar-editar-unidad>
   <p-confirmDialog header="Delete"></p-confirmDialog>
   <p-toast position="bottom-right"></p-toast>
 </div>

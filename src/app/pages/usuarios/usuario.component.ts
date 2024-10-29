@@ -1,7 +1,7 @@
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { UsuarioService } from '../../components/services/usuario.service';
 import { Usuario } from '../../components/models/usuario';
 
@@ -10,13 +10,14 @@ import { Usuario } from '../../components/models/usuario';
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
-export class UsuarioComponent {
+export class UsuarioComponent implements OnInit, OnDestroy{
 
   usuario: Usuario[] = [];
+  filtro: string = '';
   displayAddEditModal = false;
   selectedUsuario: any = null;
-  subscriptions: Subscription[] = [];
-  UsSubscription: Subscription = new Subscription();
+  private subscriptions = new Subscription();
+  private filtroSubject = new Subject<string>();
 
   constructor(
     private usuarioService: UsuarioService,
@@ -26,10 +27,7 @@ export class UsuarioComponent {
 
   ngOnInit(): void {
     this.obtenerUsuarios()
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.setupFiltroSubscription();
   }
 
   showAddModal() {
@@ -38,24 +36,51 @@ export class UsuarioComponent {
   }
 
   hideAddModal(isClosed: boolean) {
-    this.obtenerUsuarios();
     this.displayAddEditModal = !isClosed;
-  }
-
-  obtenerUsuarios(): void {
-    this.usuarioService.obtenerUsuarios().subscribe(usuario => {
-      this.usuario = usuario
-        ;
-      console.log(this.usuario);
-    });
-    this.subscriptions.push(this.UsSubscription)
-  }
-
-  guardar_editarUsuarioList(newData: any) {
-    if (this.selectedUsuario && newData.id == this.selectedUsuario.id) {
-      const usersIndex = this.usuario.findIndex(data => data.id === newData.id);
-      this.usuario[usersIndex] = newData;
+    if (isClosed) {
+      this.obtenerUsuarios();
     }
+  }
+
+  setupFiltroSubscription(): void {
+    this.subscriptions.add(
+      this.filtroSubject.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(filtro => {
+        this.obtenerUsuarios(filtro);
+      })
+    );
+  }
+
+  onFiltroChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.filtroSubject.next(inputElement.value);
+  }
+
+  obtenerUsuarios(filtro: string = ''): void {
+    this.subscriptions.add(
+      this.usuarioService.obtenerUsuarios(filtro).subscribe({
+        next: (usuario) => {
+          this.usuario = usuario;
+        },
+        error: (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+          console.log('Error al obtener usuarios:' + error);
+          
+        }        
+      })
+    );
+  }
+
+  agregarEditarUsuario(newData: Usuario): void {
+    if (this.selectedUsuario && newData.id == this.selectedUsuario.id) {
+      const usuarioIndex = this.usuario.findIndex(data => data.id === newData.id);
+      if (usuarioIndex !== -1) {
+        this.usuario[usuarioIndex] = newData;
+      }
+    }
+    this.obtenerUsuarios();
   }
 
   showEdit(id: number) {
@@ -63,22 +88,41 @@ export class UsuarioComponent {
     this.selectedUsuario = id;
   }
 
-  eliminar(id: number): void {
+  eliminarUsuario(id: number): void {
     this.confirmationService.confirm({
-      message: '¿Quieres Eliminar este Registro?',
-      header: 'Confirmacion de Eliminar Registro',
+      message: '¿Quieres eliminar este usuario?',
+      header: 'Confirmación de eliminación',
       icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
       accept: () => {
-        this.usuarioService.eliminarUsuario(id).subscribe(
-          response => {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registro Elimindo' })
-            this.obtenerUsuarios();
-          },
-          error => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: error })
-          }
-        )
-      },
-    })
-  };
+        this.subscriptions.add(
+          this.usuarioService.eliminarUsuario(id).subscribe({
+            next: (response: string) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: response
+              });
+              this.usuario = this.usuario.filter(e => e.id !== id);
+            },
+            error: (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: error.message || 'Ocurrió un error al eliminar el registro'
+              });
+            },
+            complete: () => {
+              this.obtenerUsuarios();
+            }
+          })
+        );
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

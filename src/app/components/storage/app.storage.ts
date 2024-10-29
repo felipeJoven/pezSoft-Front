@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,12 +17,20 @@ export class AppStorage {
     return localStorage.getItem("token")!;
   }
 
-  setUser(user: string) {
-    localStorage.setItem("user", user);
+  setUsuario(usuario: string) {
+    localStorage.setItem("usuario", usuario);
   }
 
-  getUser(): string {
-    return localStorage.getItem("user")!;
+  getUsuario(): string {
+    return localStorage.getItem("usuario")!;
+  }
+
+  setRol(rol: string) {
+    localStorage.setItem("rol", rol);
+  }
+
+  getRol(): string {
+    return localStorage.getItem("rol")!;
   }
 
   clear() {
@@ -34,7 +40,8 @@ export class AppStorage {
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('rol');
     this.token$.next(undefined);
     return true;
   }

@@ -1,0 +1,106 @@
+<p-dialog header="{{ modalType }} Proveedor" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+    [resizable]="false" (onHide)="closeModal()">
+    <form [formGroup]="proveedorForm" class="proveedor-form">
+        <div class="row">
+            <div class="field">
+                <label class="block" for="razonSocial">Razón Social</label>
+                <input id="razonSocial" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+                    formControlName="razonSocial" placeholder="Ingrese una razón social" />
+                <small class="p-error block" *ngIf="proveedorForm.controls['razonSocial'].invalid &&
+                    (proveedorForm.controls['razonSocial'].dirty || proveedorForm.controls['razonSocial'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="email">Correo</label>
+                <input id="email" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+                    formControlName="email" placeholder="Ingrese un correo" />
+                <small class="p-error block" *ngIf="proveedorForm.controls['email'].invalid &&
+                    (proveedorForm.controls['email'].dirty || proveedorForm.controls['email'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label class="block" for="nombre">Nombre</label>
+                <input id="nombre" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+                    formControlName="nombre" placeholder="Ingrese un nombre" />
+                <small class="p-error block" *ngIf="proveedorForm.controls['nombre'].invalid &&
+                    (proveedorForm.controls['nombre'].dirty || proveedorForm.controls['nombre'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="apellido">Apellido</label>
+                <input id="apellido" class="p-2 rounded-xl border border border-gray-500" name="apellido" type="text"
+                    pInputText formControlName="apellido" placeholder="Ingrese un apellido" />
+                <small class="p-error block" *ngIf="proveedorForm.controls['apellido'].invalid &&
+                    (proveedorForm.controls['apellido'].dirty || proveedorForm.controls['apellido'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label class="block" for="telefono">Teléfono</label>
+                    <input id="telefono" class="p-2 rounded-xl border border border-gray-500" name="telefono"
+                        type="text" pInputText formControlName="telefono" placeholder="Ingrese un teléfono" />
+                    <small class="p-error block" *ngIf="proveedorForm.controls['telefono'].invalid &&
+                        (proveedorForm.controls['telefono'].dirty || proveedorForm.controls['telefono'].touched)">
+                        Campo requerido *
+                    </small>
+                </div>
+                <div class="field">
+                    <label class="block" for="direccion">Dirección</label>
+                    <input id="direccion" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+                        formControlName="direccion" placeholder="Ingrese una dirección" />
+                    <small class="p-error block" *ngIf="proveedorForm.controls['direccion'].invalid &&
+                        (proveedorForm.controls['direccion'].dirty || proveedorForm.controls['direccion'].touched)">
+                        Campo requerido *
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label class="block" for="numeroIdentificacion">Número de Identificacion</label>
+                <input id="numeroIdentificacion" class="p-2 rounded-xl border border border-gray-500" type="text"
+                    pInputText formControlName="numeroIdentificacion" placeholder="Ingrese un número de identificación" />
+                <small class="p-error block" *ngIf="proveedorForm.controls['numeroIdentificacion'].invalid &&
+                    (proveedorForm.controls['numeroIdentificacion'].dirty ||proveedorForm.controls['numeroIdentificacion'].touched)">
+                    Campo requerido *
+                </small>
+                <div class="field">
+                    <label class="block" for="tipoIdentificacionId">Tipo Identificación</label>
+                    <select id="tipoIdentificacionId" class="select" formControlName="tipoIdentificacionId">
+                        <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+                        <option *ngFor="let tipo of tipoIdentificacion" [ngValue]="tipo.id">{{ tipo.name }}</option>
+                    </select>
+                    <small class="p-error block" *ngIf="proveedorForm.controls['tipoIdentificacionId'].invalid &&
+                        (proveedorForm.controls['tipoIdentificacionId'].dirty || proveedorForm.controls['tipoIdentificacionId'].touched)">
+                        Selecciona un tipo de identificación válido
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label class="block" for="tipoProveedorId">Tipo de Proveedor</label>
+                <select id="tipoProveedorId" class="select" formControlName="tipoProveedorId">
+                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+                    <option *ngFor="let tipoPro of tipoProveedor" [ngValue]="tipoPro.id">{{ tipoPro.name }}</option>
+                </select>
+                <small class="p-error block" *ngIf="proveedorForm.controls['tipoProveedorId'].invalid &&
+                    (proveedorForm.controls['tipoProveedorId'].dirty || proveedorForm.controls['tipoProveedorId'].touched)">
+                    Selecciona un tipo de proveedor válido
+                </small>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button class="bg-gray-100 rounded-xl py-3 px-2 mr-2" (click)="closeModal()" label="Cancel"
+            styleClass="p-button-text"></p-button>
+        <p-button class="custom-button" (click)="agregarEditarProveedor()" label="{{ modalType }}"
+            [disabled]="proveedorForm.invalid"></p-button>
+    </ng-template>
+</p-dialog>

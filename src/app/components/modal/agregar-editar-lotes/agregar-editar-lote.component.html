@@ -1,0 +1,76 @@
+<p-dialog header="{{modalType}} Lote" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+    [resizable]="false" (onHide)="closeModal()">
+    <form [formGroup]="loteForm" class="lote-form">
+        <div class="row">
+            <div class="field">
+                <label class="block" for="lote">Nombre del lote</label>
+                <input id="lote" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText 
+                    formControlName="lote" placeholder="Ingrese un lote" />
+                <small class="p-error block" *ngIf="loteForm.controls['lote'].invalid &&
+                    loteForm.controls['lote'].dirty">Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="fechaSiembra">Fecha de Siembra</label>
+                <input id="fechaSiembra" class="p-2 rounded-xl border border border-gray-500" type="date" pInputText 
+                    formControlName="fechaSiembra" />
+                <small class="p-error block" *ngIf=" loteForm.controls['fechaSiembra'].invalid &&
+                    loteForm.controls['fechaSiembra'].dirty">Campo Obligatorio*
+                </small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label class="block" for="numeroPeces">Numero de Peces</label>
+                <input id="numeroPeces"  class="p-2 rounded-xl border border-gray-500" name="numeroPeces" type="text" pInputText
+                    formControlName="numeroPeces" placeholder="Ingrese un número de peces" />
+                <small class="p-error block" *ngIf=" loteForm.controls['numeroPeces'].invalid &&
+                    loteForm.controls['numeroPeces'].dirty">Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="especieId">Especie</label>
+                <select id="especieId" class="select" name="especieId" formControlName="especieId">
+                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+                    <option *ngFor="let especie of especie" [ngValue]="especie.id">{{especie.especie}}</option>
+                </select>
+                <small class="p-error block" *ngIf="loteForm.controls['especieId'].invalid &&
+                    (loteForm.controls['especieId'].dirty ||loteForm.controls['especieId'].touched)">
+                    Campo requerido *
+                </small>
+            </div>            
+        </div>
+        <div class="row">            
+            <div class="field">
+                <label class="block" for="unidadProductivaId">Unidad Productiva</label>
+                <select id="unidadProductivaId" class="select" name="unidadProductivaId" formControlName="unidadProductivaId">
+                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+                    <option *ngFor="let unidadP of unidadProductiva" [value]="unidadP.id">{{unidadP.unidadP}}
+                    </option>
+                </select>
+                <small class="p-error block" *ngIf="loteForm.controls['unidadProductivaId'].invalid &&
+                    (loteForm.controls['unidadProductivaId'].dirty ||loteForm.controls['unidadProductivaId'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="proveedorId">Proveedor</label>
+                <select id="proveedorId" class="select" name="proveedorId" formControlName="proveedorId">
+                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+                    <option *ngFor="let proveedor of proveedor" [value]="proveedor.id">{{proveedor.razonSocial}}
+                    </option>
+                </select>
+                <small class="p-error block" *ngIf="loteForm.controls['proveedorId'].invalid &&
+                    (loteForm.controls['proveedorId'].dirty ||loteForm.controls['proveedorId'].touched)">
+                    Campo requerido *
+                </small>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button class="bg-gray-100 rounded-xl py-3 px-2 mr-2" (click)="closeModal()" label="Cancel"
+            styleClass="p-button-text"></p-button>
+        <p-button class="custom-button" (click)="agregarEditarLote()" label="{{modalType}}" [disabled]="loteForm.invalid"></p-button>
+    </ng-template>
+</p-dialog>

@@ -69,6 +69,7 @@
 
 .option {
   display: flex;
+  justify-content: center;
 }
 
 .edit {

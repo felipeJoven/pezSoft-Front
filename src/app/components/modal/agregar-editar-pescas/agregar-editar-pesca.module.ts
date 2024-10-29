@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToastModule } from 'primeng/toast';
-import { AgregarEditarProveedorComponent } from './agregar-editar-proveedor.component';
+import { TreeSelectModule } from 'primeng/treeselect';
+
+import { AgregarEditarPescaComponent } from './agregar-editar-pesca.component';
 
 @NgModule({
   declarations: [
-    AgregarEditarProveedorComponent
+    AgregarEditarPescaComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { AgregarEditarProveedorComponent } from './agregar-editar-proveedor.comp
     InputNumberModule,
     InputTextareaModule,
     ToastModule,
+    TreeSelectModule
   ],
-  exports: [AgregarEditarProveedorComponent]
+  exports: [AgregarEditarPescaComponent]
 })
-export class AgregarEditarProveedorModule { }
+export class AgregarEditarPescaModule { }

@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { ConfirmationService, MessageService } from 'primeng/api';
+
 import { UsuarioComponent } from './usuario.component';
 import { AgregarEditarUsuarioModule } from '../../components/modal/agregar-editar-usuarios/agregar-editar-usuario.module';
 
@@ -33,7 +34,7 @@ import { AgregarEditarUsuarioModule } from '../../components/modal/agregar-edita
   providers: [
     ConfirmationService,
     MessageService
-  ],
+  ]
 })
 
 export class UsuarioModule { }

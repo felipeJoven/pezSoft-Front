@@ -1,0 +1,48 @@
+<p-dialog header="{{modalType}} Mortalidad" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+    [resizable]="false" (onHide)="closeModal()">
+    <form [formGroup]="form" class="mortalidad-form">
+
+        <div class="row">
+            <div class="field">
+                <label class="block" for="animalesMuertos">Animales Muertos</label>
+                <input type="text" pInputText id="animalesPescados" formControlName="animalesMuertos">
+                <small class="p-error block" *ngIf="
+                    form.controls['animalesMuertos'].invalid &&
+                    form.controls['animalesMuertos'].dirty
+                    ">Campo Obligatorio*</small>
+            </div>
+
+            <div class="field">
+                <label class="block" for="observacion">Observaciones</label>
+                <input name="observacion" type="text" pInputText id="observacion" formControlName="observacion">
+                <small class="p-error block" *ngIf="
+                    form.controls['observacion'].invalid &&
+                    form.controls['observacion'].dirty
+                    ">Campo Obligatorio*</small>
+            </div>
+
+            <div class="field">
+                <label class="block" for="lote">Lote</label>
+                <select class="select" name="lote" type="text" formControlName="lote">
+                    <option>Seleccionar una Opcion</option>
+                    <option *ngFor="let lot of lotes" [value]="lot.id">
+                        {{lot.nombreLote}}
+                    </option>
+                </select>
+                <small class="p-error block" *ngIf="
+                    form.controls['lote'].invalid &&
+                    form.controls['lote'].dirty
+                    ">Campo Obligatorio*</small>
+            </div>
+    
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+            <p-button
+    class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
+    (click)="closeModal()"
+    label="Cancel"
+    styleClass="p-button-text"></p-button>
+        <p-button (click)="addEditMortalidad()" label="{{modalType}}" [disabled]="form.invalid"></p-button>
+    </ng-template>
+</p-dialog>

@@ -75,7 +75,7 @@ export class UnidadProductivaComponent implements OnInit, OnDestroy {
     return estado === 0 ? 'Disponible' : 'Ocupada';
   }
 
-  guardar_editarUnidadList(newData: UnidadProductiva): void {
+  agregarEditarUnidad(newData: UnidadProductiva): void {
     if (this.selectedUnidad && newData.id === this.selectedUnidad.id) {
       const unidadIndex = this.unidad.findIndex(data => data.id === newData.id);
       if (unidadIndex !== -1) {
@@ -90,7 +90,7 @@ export class UnidadProductivaComponent implements OnInit, OnDestroy {
     this.selectedUnidad = id;
   }
 
-  eliminar(id: number): void {
+  eliminarUnidad(id: number): void {
     this.confirmationService.confirm({
       message: '¿Quieres eliminar esta unidad productiva?',
       header: 'Confirmación de eliminación',

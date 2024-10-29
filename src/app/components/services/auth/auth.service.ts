@@ -16,9 +16,7 @@ export class AuthService {
   constructor(
     private http: HttpClient, 
     private appStorage: AppStorage
-  ){
-    this.isLoggedInSubject.next(!!this.appStorage.getToken());
-  }
+  ) { this.isLoggedInSubject.next(!!this.appStorage.getToken()); }
 
   login(credential: Credentials) {
     return this.http.post(`${this.apiUrl}/login`, credential);

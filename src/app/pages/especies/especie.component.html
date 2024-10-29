@@ -3,30 +3,21 @@
     <div class="table">Especies</div>
   </div>
 
-  <p-table
-    class="border-3 border-gray-400"
-    [value]="especie"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 20, 30]"
-  >
-  <ng-template pTemplate="caption">
-    <div class="header-container">      
+  <p-table class="border-3 border-gray-400" [value]="especie" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30]">
+    <ng-template pTemplate="caption">
+      <div class="header-container">
         <div class="search-container">
           <span class="search">
             <i class="pi pi-search"></i>
           </span>
-          <input type="text" pInputText placeholder="Buscar especies" 
-                 [(ngModel)]="filtro" (input)="onFiltroChange($event)">
+          <input type="text" pInputText placeholder="Buscar especies" [(ngModel)]="filtro"
+            (input)="onFiltroChange($event)" />
         </div>
-        <p-button
-          class="custom-button"
-          label="Registrar una especie"
-          (click)="showAddModal()"
-        ></p-button>
-    </div>
-  </ng-template>
-  
+        <p-button class="custom-button" label="Registrar una especie" (click)="showAddModal()"></p-button>
+      </div>
+    </ng-template>
+
     <ng-template pTemplate="header">
       <tr class="border-2 border-gray-300 w-6/12">
         <th class="border-2">N°</th>
@@ -41,30 +32,18 @@
         <td class="border-2">{{ especie.especie }}</td>
         <td class="border-2">{{ especie.fechaCreacion }}</td>
         <td class="border-2">
-          <button
-            pButton
-            icon="pi pi-pencil"
-            class="edit"
-            (click)="showEdit(especie.id)"
-          ></button>
-          <button
-            pButton
-            icon="pi pi-trash"
-            class="delete"
-            (click)="eliminar(especie.id)"
-          ></button>
+          <div class="option">
+          <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(especie.id)"></button>
+          <button pButton icon="pi pi-trash" class="delete" (click)="eliminarEspecie(especie.id)"></button>
+        </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <app-agregar-editar-especie
-    *ngIf="displayAddEditModal"
-    [displayAddEditModal]="displayAddEditModal"
-    [selectedEspecie]="selectedEspecie"
-    (clickClose)="hideAddModal($event)"
-    (clickAddEdit)="guardar_editarEspecieList($event)"
-  ></app-agregar-editar-especie>
+  <app-agregar-editar-especie *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
+    [selectedEspecie]="selectedEspecie" (clickClose)="hideAddModal($event)"
+    (clickAddEdit)="agregarEditarEspecie($event)"></app-agregar-editar-especie>
   <p-confirmDialog header="Delete"></p-confirmDialog>
   <p-toast position="bottom-right"></p-toast>
 </div>

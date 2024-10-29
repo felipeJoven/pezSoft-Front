@@ -11,14 +11,13 @@ export class ProveedorService {
 
   constructor( private http: HttpClient) { }
 
-
   obtenerProveedores(filtro?: string): Observable<Proveedor[]> {
-    let params = new HttpParams
+    let params = new HttpParams;
     if (filtro) {
       params = params.set('filtro', filtro);
     }
     return this.http.get<Proveedor[]>(this.apiUrl, { params }).pipe(
-      catchError(this.handleError)
+      catchError(this.manejarError)
     );
   }
 
@@ -32,23 +31,23 @@ export class ProveedorService {
     if (!selectProveedor) {
       return this.http.post(this.apiUrl, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.handleError)
+        catchError(this.manejarError)
       );
     } else {
       return this.http.put(`${this.apiUrl}/${selectProveedor}`, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.handleError)
+        catchError(this.manejarError)
       );
     }
   }
 
   eliminarProveedor(id: number): Observable<any>{
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
-      catchError(this.handleError)
+      catchError(this.manejarError)
     );
   }
   
-  private handleError(error: HttpErrorResponse) {
+  private manejarError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';
     if (error.error instanceof ErrorEvent) {
       // Error del lado del cliente

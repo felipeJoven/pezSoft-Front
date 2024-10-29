@@ -3,31 +3,17 @@
     <div class="table">Proveedores</div>
   </div>
 
-  <p-table
-    [value]="proveedor"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 20, 30]"
-  >
+  <p-table [value]="proveedor" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
     <ng-template pTemplate="caption">
       <div class="header-container">
         <div class="search-container">
           <span class="search">
             <i class="pi pi-search"></i>
           </span>
-          <input
-            type="text"
-            pInputText
-            placeholder="Buscar provedores"
-            [(ngModel)]="filtro"
-            (input)="onFiltroChange($event)"
-          />
+          <input type="text" pInputText placeholder="Buscar provedores" [(ngModel)]="filtro"
+            (input)="onFiltroChange($event)" />
         </div>
-        <p-button
-          class="custom-button"
-          label="Registrar un proveedor"
-          (click)="showAddModal()"
-        ></p-button>
+        <p-button class="custom-button" label="Registrar un proveedor" (click)="showAddModal()"></p-button>
       </div>
     </ng-template>
 
@@ -56,38 +42,21 @@
         <td class="border-2">{{ proveedor.telefono }}</td>
         <td class="border-2">{{ proveedor.direccion }}</td>
         <td class="border-2">{{ proveedor.numeroIdentificacion }}</td>
-        <td class="border-2">
-          {{ verTipoIdentificacion(proveedor.tipoIdentificacionId) }}
-        </td>
-        <td class="border-2">
-          {{ verTipoProvedor(proveedor.tipoProveedorId) }}
-        </td>
+        <td class="border-2">{{ proveedor.tipoIdentificacionName }}</td>
+        <td class="border-2">{{ proveedor.tipoProveedorName }}</td>
         <td class="border-2">
           <div class="option">
-            <button
-              pButton
-              icon="pi pi-pencil"
-              class="edit"
-              (click)="showEdit(proveedor.id)"
-            ></button>
-            <button
-              pButton
-              icon="pi pi-trash"
-              class="delete"
-              (click)="eliminar(proveedor.id)"
-            ></button>
+            <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(proveedor.id)"></button>
+            <button pButton icon="pi pi-trash" class="delete" (click)="eliminarProveedor(proveedor.id)"></button>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
-  <app-agregar-editar-proveedor
-    *ngIf="displayAddEditModal"
-    [displayAddEditModal]="displayAddEditModal"
-    [selectedProveedor]="selectedProveedor"
-    (clickClose)="hideAddModal($event)"
-    (clickAddEdit)="guardar_editarProveedorList($event)"
-  ></app-agregar-editar-proveedor>
+
+  <app-agregar-editar-proveedor *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
+    [selectedProveedor]="selectedProveedor" (clickClose)="hideAddModal($event)"
+    (clickAddEdit)="agregarEditarProveedor($event)"></app-agregar-editar-proveedor>
   <p-confirmDialog header="Delete"></p-confirmDialog>
   <p-toast position="bottom-right"></p-toast>
 </div>

@@ -30,16 +30,16 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
     direccion: ["", Validators.required],
     razonSocial: ["", Validators.required],
     numeroIdentificacion: [0, Validators.required],
-    tipoIdentificacion: [0, Validators.required],
-    tipoProveedor: [0, Validators.required],
+    tipoIdentificacionId: [0, Validators.required],
+    tipoProveedorId: [0, Validators.required]
   })
   tipoIdentificacion: TipoIdentificacion[] = [];
   tipoProveedor: TipoProveedor[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private messageService: MessageService,
     private proveedorService: ProveedorService,
+    private messageService: MessageService,
     private tipoProveedorService: TipoProveedorService,
     private tipoIdentificacionService: TipoIdentificacionService
   ) { }
@@ -64,11 +64,7 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
     if (this.displayAddEditModal && this.selectedProveedor) {
       const proveedorId = typeof this.selectedProveedor === 'object' ? this.selectedProveedor.id : this.selectedProveedor;
       this.proveedorService.obtenerProveedorPorId(proveedorId).subscribe(
-        response => {          
-          console.log('id:', response.id); 
-          console.log('Identificacion del proveedor:', response.numeroIdentificacion); 
-          console.log('tipo de Identificacion:', response.tipoIdentificacionId); 
-          console.log('tipo de proveedor:', response.tipoProveedorId); 
+        response => {                  
           this.proveedorForm.get('razonSocial')?.setValue(response.razonSocial);
           this.proveedorForm.get('nombre')?.setValue(response.nombre);
           this.proveedorForm.get('apellido')?.setValue(response.apellido);
@@ -76,8 +72,8 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
           this.proveedorForm.get('email')?.setValue(response.email);
           this.proveedorForm.get('direccion')?.setValue(response.direccion);
           this.proveedorForm.get('numeroIdentificacion')?.setValue(response.numeroIdentificacion);
-          this.proveedorForm.controls['tipoIdentificacion'].setValue(response.tipoIdentificacionId?.id);
-          this.proveedorForm.controls['tipoProveedor'].setValue(response.tipoProveedorId?.id);          
+          this.proveedorForm.controls['tipoIdentificacionId'].setValue(response.tipoIdentificacionId);                    
+          this.proveedorForm.controls['tipoProveedorId'].setValue(response.tipoProveedorId);          
         }
       )
     }
@@ -85,12 +81,11 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
   
   obtenerTipoIdentificaciones() {
     this.tipoIdentificacionService.obtenerTipoIdentificaciones().subscribe({
-      next: (response) => {
-        console.log("Tipos de Identificación obtenidos:", response);
+      next: (response) => {      
         this.tipoIdentificacion = response;
       },
       error: (error) => {
-        console.error("Error al obtener tipos de identificación:", error);
+        console.error("Error al obtener tipos de identificación: ", error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los tipos de identificación' });
       }
     });
@@ -98,12 +93,11 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
 
   obtenerTipoProveedores() {
     this.tipoProveedorService.obtenerTipoProveedores().subscribe({
-      next: (response) => {
-        console.log("Tipos de Proveedor obtenidos:", response);
+      next: (response) => {        
         this.tipoProveedor = response;
       },
       error: (error) => {
-        console.error("Error al obtener tipos de proveedor:", error);
+        console.error("Error al obtener tipos de proveedor: ", error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los tipos de proveedor' });      
       }
     });   
@@ -118,9 +112,9 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
       direccion: this.proveedorForm.get('direccion')?.value,
       razonSocial: this.proveedorForm.get('razonSocial')?.value,
       numeroIdentificacion: this.proveedorForm.get('numeroIdentificacion')?.value,
-      tipoIdentificacionId: this.proveedorForm.get('tipoIdentificacion')?.value,
-      tipoProveedorId: this.proveedorForm.get('tipoProveedor')?.value
-    };    
+      tipoIdentificacionId: this.proveedorForm.get('tipoIdentificacionId')?.value,
+      tipoProveedorId: this.proveedorForm.get('tipoProveedorId')?.value
+    };       
     const proveedorId = this.selectedProveedor ? (typeof this.selectedProveedor === 'object' ? this.selectedProveedor.id : this.selectedProveedor) : null;
     this.proveedorService.agregarEditarProveedor(proveedorData, proveedorId).subscribe({
       next: (response: any) => {

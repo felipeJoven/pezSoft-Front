@@ -8,28 +8,34 @@ import { HttpClientModule } from "@angular/common/http";
 import { TableModule } from 'primeng/table';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { ProveedorComponent } from './proveedor.component';
-import { AgregarEditarProveedorModule } from '../../components/modal/agergar-editar-proveedores/agregar-editar-proveedor.module';
+
+import { LoteComponent } from './lote.component';
+import { AgregarEditarLoteModule } from '../../components/modal/agregar-editar-lotes/agregar-editar-lote.module';
 
 @NgModule({
   declarations: [
-    ProveedorComponent
+    LoteComponent,
+    
   ],
   imports: [
     CommonModule,
-    ButtonModule,
     ToastModule,
     ConfirmDialogModule,
+    DropdownModule,
+    FormsModule,
     HttpClientModule,
     TableModule,
+    ButtonModule,
     BrowserAnimationsModule,
-    FormsModule,
     DialogModule,
-    AgregarEditarProveedorModule
+    AgregarEditarLoteModule
   ],
-  providers: [ConfirmationService,
-  MessageService]
+  providers: [
+    ConfirmationService,
+    MessageService
+  ]
 })
-export class ProveedorModule { }
+export class LoteModule { }

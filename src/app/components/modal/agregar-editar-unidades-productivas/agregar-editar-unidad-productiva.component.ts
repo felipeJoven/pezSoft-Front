@@ -34,16 +34,6 @@ export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
     this.obtenerUnidadP();
   }
 
-  onKeyPress(event: KeyboardEvent) {
-    // Obtiene el código de la tecla presionada
-    const keyCode = event.which || event.keyCode;
-  
-    // Permite solo números (0-9)
-    if (keyCode < 48 || keyCode > 57) {
-      event.preventDefault();
-    }
-  }
-
   ngOnChanges(): void {
     if(this.selectedUnidadP){
       this.modalType = 'Actualizar';

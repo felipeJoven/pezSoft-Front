@@ -10,6 +10,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
+
 import { EspecieComponent } from './especie.component';
 import { AgregarEditarEspecieModule } from '../../components/modal/agregar-editar-especies/agregar-editar-especie.module';
 

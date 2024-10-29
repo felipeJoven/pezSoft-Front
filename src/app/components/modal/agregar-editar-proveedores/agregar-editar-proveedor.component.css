@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   width: 150vh;
-  height: auto;
+  height: 100vh;
 }
 
 .table {
@@ -16,30 +16,6 @@
   border-radius: 5px;
 }
 
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.1rem;
-}
-
-.search {
-  padding: 0.5rem;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  margin-right: 25rem;
-}
-
-.search-container input {
-  width: 250px;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid #000000;
-}
-
 .custom-button {
   background-color: #036927;
   border-radius: 0.75rem;
@@ -51,24 +27,6 @@
 .custom-button:hover {
   background-color: #022d11;
   transform: scale(1.05);
-}
-
-
-.custom-button {
-  background-color: #036927;
-  border-radius: 0.75rem;
-  color: white;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.custom-button:hover {
-  background-color: #022d11;
-  transform: scale(1.05);
-}
-
-.option {
-  display: flex;
 }
 
 .edit {
@@ -100,9 +58,4 @@ th {
 
 td {
   text-align: center;
-}
-
-.resaltado {
-  background-color: yellow;
-  font-weight: bold;
 }

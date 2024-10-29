@@ -15,7 +15,10 @@ import { LoginModule } from './pages/login/login.module.js';
 import { UsuarioModule } from './pages/usuarios/usuario.module.js';
 import { EspecieModule } from './pages/especies/especie.module.js';
 import { UnidadProductivaModule } from './pages/unidades-productivas/unidad-productiva.module.js';
-import { ProveedorModule } from './pages/proveedor/proveedor.module.js';
+import { ProveedorModule } from './pages/proveedores/proveedor.module.js';
+import { LoteModule } from './pages/lotes/lote.module.js';
+import { PescaModule } from './pages/pesca/pesca.module.js';
+import { MortalidadModule } from './pages/mortalidad/mortalidad.module.js';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { ProveedorModule } from './pages/proveedor/proveedor.module.js';
     UsuarioModule,
     EspecieModule,
     UnidadProductivaModule,
-    ProveedorModule
+    ProveedorModule,
+    LoteModule,
+    PescaModule,
+    MortalidadModule
   ],
   providers: [
     {

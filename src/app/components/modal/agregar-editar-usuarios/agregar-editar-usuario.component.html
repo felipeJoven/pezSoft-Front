@@ -1,166 +1,87 @@
-<p-dialog
-  header="{{ modalType }} Usuarios"
-  [(visible)]="displayAddEditModal"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeModal()"
->
-  <form [formGroup]="form" class="usuarios-form">
+<p-dialog header="{{ modalType }} Usuario" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+  [resizable]="false" (onHide)="closeModal()">
+  <form [formGroup]="usuarioForm" class="usuario-form">
     <div class="row">
       <div class="field">
         <label class="block" for="nombre">Nombre</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="nombre"
-          formControlName="nombre"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['nombre'].invalid && form.controls['nombre'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <input id="nombre" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="nombre" placeholder="Ingrese un nombre" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['nombre'].invalid &&
+          (usuarioForm.controls['nombre'].dirty || usuarioForm.controls['nombre'].touched)"> Campo requerido *
+        </small>
       </div>
       <div class="field">
         <label class="block" for="apellido">Apellido</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="apellido"
-          formControlName="apellido"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['apellido'].invalid && form.controls['apellido'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <input id="apellido" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="apellido" placeholder="Ingrese un apellido" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['apellido'].invalid &&
+            (usuarioForm.controls['apellido'].dirty || usuarioForm.controls['apellido'].touched)"> Campo requerido *
+        </small>
       </div>
     </div>
     <div class="row">
       <div class="field">
-        <label class="block" for="username">Usuario</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="username"
-          formControlName="username"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['username'].invalid && form.controls['username'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <label class="block" for="usuario">Usuario</label>
+        <input id="usuario" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="usuario" placeholder="Ingrese un usuario" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['usuario'].invalid &&
+          (usuarioForm.controls['usuario'].dirty || usuarioForm.controls['usuario'].touched)"> Campo requerido *
+        </small>
       </div>
       <div class="field">
         <label class="block" for="email">Correo</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="email"
-          formControlName="email"
-        />
-        <small
-          class="p-error block"
-          *ngIf="form.controls['email'].invalid && form.controls['email'].dirty"
-          >El campo es requerido</small
-        >
+        <input id="email" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="email" placeholder="Ingrese un correo" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['email'].invalid &&
+          (usuarioForm.controls['email'].dirty || usuarioForm.controls['email'].touched)"> Campo requerido *
+        </small>
       </div>
     </div>
     <div class="row">
       <div class="field">
         <label class="block" for="password">Contraseña</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="password"
-          formControlName="password"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['password'].invalid && form.controls['password'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <input id="password" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="password" placeholder="Ingrese una contraseña" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['password'].invalid &&
+          (usuarioForm.controls['password'].dirty || usuarioForm.controls['password'].touched)"> Campo requerido *
+        </small>
       </div>
       <div class="field">
         <label class="block" for="email">Confirmar contraseña</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="confirmPassword"
-          formControlName="confirmPassword"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['confirmPassword'].invalid &&
-            form.controls['confirmPassword'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <input id="confirmPassword" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="confirmPassword" placeholder="Confirme la contraseña" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['confirmPassword'].invalid &&
+          (usuarioForm.controls['confirmPassword'].dirty || usuarioForm.controls['confirmPassword'].touched)"> Campo
+          requerido *
+        </small>
       </div>
     </div>
     <div class="row">
       <div class="field">
         <label class="block" for="telefono">Teléfono</label>
-        <input
-          class="p-2 rounded-xl border border border-gray-500"
-          type="text"
-          pInputText
-          id="telefono"
-          formControlName="telefono"
-          (keypress)="onKeyPress($event)"
-        />
-        <small
-          class="p-error block"
-          *ngIf="
-            form.controls['telefono'].invalid && form.controls['telefono'].dirty
-          "
-          >El campo es requerido</small
-        >
+        <input id="telefono" class="p-2 rounded-xl border border border-gray-500" type="text" pInputText
+          formControlName="telefono" placeholder="Ingrese un teléfono" />
+        <small class="p-error block" *ngIf="usuarioForm.controls['telefono'].invalid &&
+          (usuarioForm.controls['telefono'].dirty || usuarioForm.controls['telefono'].touched)"> Campo requerido *
+        </small>
       </div>
       <div class="field">
-        <label class="block" for="rol">Rol</label>
-        <select class="select" name="rol" type="text" formControlName="rol">
-          <option>Seleccionar una Opcion</option>
-          <option *ngFor="let rol of rol" [value]="rol.id">
-            {{ rol.name }}
-          </option>
+        <label class="block" for="rolId">Rol</label>
+        <select id="rolId" class="select" name="rolId" type="text" formControlName="rolId">
+          <option [ngValue]="null" disabled>Seleccionar una Opción</option>
+          <option *ngFor="let rol of rol" [value]="rol.id"> {{ rol.name }}</option>
         </select>
-        <small
-          class="p-error block"
-          *ngIf="form.controls['rol'].invalid && form.controls['rol'].dirty"
-          >El campo es requerido</small
-        >
+        <small class="p-error block" *ngIf="usuarioForm.controls['rolId'].invalid &&
+          (usuarioForm.controls['rolId'].dirty || usuarioForm.controls['rolId'].touched)"> 
+          Selecciona un rol válido
+        </small>
       </div>
     </div>
   </form>
-  
   <ng-template pTemplate="footer">
-    <p-button
-      class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
-      (click)="closeModal()"
-      label="Cancel"
-      styleClass="p-button-text"
-    ></p-button>
-    <p-button
-      (click)="agregarEditarUsuario()"
-      label="{{ modalType }}"
-      [disabled]="form.invalid"
-    ></p-button>
+    <p-button class="bg-gray-100 rounded-xl py-3 px-2 mr-2" (click)="closeModal()" label="Cancel"
+      styleClass="p-button-text"></p-button>
+    <p-button class="custom-button" (click)="agregarEditarUsuario()" label="{{ modalType }}"
+      [disabled]="usuarioForm.invalid"></p-button>
   </ng-template>
 </p-dialog>

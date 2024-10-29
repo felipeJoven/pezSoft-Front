@@ -9,4 +9,6 @@ export class Usuario {
     email: string;
     telefono: number;
     rol: Rol;
+    rolId: number;
+    rolName: string;
 }

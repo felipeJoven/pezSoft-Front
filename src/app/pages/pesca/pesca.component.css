@@ -1,0 +1,23 @@
+.h1 {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    background: #EC6708;
+    border-radius: 5px;
+  }
+  
+  p-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+  }
+  
+  th{
+    text-align: center;
+  }
+  
+  td{
+    text-align: center;
+  }

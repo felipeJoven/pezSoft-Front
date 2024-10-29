@@ -34,12 +34,14 @@ export class LoginComponent implements OnInit {
     if(this.formulario.valid) {
       const credentials: Credentials = this.formulario.value;
       this.authService.login(credentials).subscribe(
-        (resp: any) => {
-          this.appStorage.setToken(resp.message);
+        (response: any) => {
+          this.appStorage.setToken(response.message);
+          this.appStorage.setUsuario(response.usuario);
+          this.appStorage.setRol(response.rol);
           this.router.navigate(['/welcome']);
         },
-        err => {
-          console.log(err)
+        error => {
+          console.log(error)
           this.snack.open('Detalles inválidos , vuelva a intentar !!','Aceptar',{
             duration:3000
           })

@@ -11,6 +11,10 @@ export class Proveedor {
     razonSocial: string;
     fechaCreacion: Date;
     numeroIdentificacion: number;
-    tipoIdentificacionId: TipoIdentificacion;
-    tipoProveedorId: TipoProveedor;
+    tipoIdentificacion: TipoIdentificacion;
+    tipoProveedor: TipoProveedor;
+    tipoIdentificacionId: number;
+    tipoProveedorId: number;
+    tipoIdentificacionName: string;
+    tipoProveedorName: string;
 }

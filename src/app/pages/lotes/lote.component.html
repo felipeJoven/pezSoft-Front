@@ -1,0 +1,60 @@
+<div class="card">
+    <div class="justify-content-between">
+        <div class="table">Lote</div>
+    </div>
+
+    <p-table class="border-3 border-gray-400" [value]="lote" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10, 20, 30]">
+        <ng-template pTemplate="caption">
+            <div class="header-container">
+              <div class="search-container">
+                <span class="search">
+                  <i class="pi pi-search"></i>
+                </span>
+                <input type="text" pInputText placeholder="Buscar lotes" [(ngModel)]="filtro"
+                  (input)="onFiltroChange($event)" />
+              </div>
+              <p-button class="custom-button" label="Registrar un lote" (click)="showAddModal()"></p-button>
+            </div>
+          </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="border-2 border-gray-300 w-6/12">
+                <th class="border-2">N°</th>
+                <th class="border-2">Nombre Lote</th>
+                <th class="border-2">Fecha de Siembra</th>
+                <th class="border-2">Días Cultivados</th>
+                <th class="border-2">Peces Iniciales</th>
+                <th class="border-2">Número Peces</th>
+                <th class="border-2">Especie</th>
+                <th class="border-2">Unidad Productiva</th>
+                <th class="border-2">Proveedor</th>
+                <th class="border-2">Opciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowIndex="rowIndex" let-lote>
+            <tr class="hover:bg-gray-300 cursor-pointer duration-300">
+                <td class="border-2">{{ rowIndex + 1 }}</td>
+                <td class="border-2">{{ lote.lote }}</td>
+                <td class="border-2">{{ lote.fechaSiembra }}</td>
+                <td class="border-2">{{ lote.diasCultivados }}</td>
+                <td class="border-2">{{ lote.pecesIniciales }}</td>
+                <td class="border-2">{{ lote.numeroPeces }}</td>
+                <td class="border-2">{{ lote.especieEspecie }}</td>
+                <td class="border-2">{{ lote.unidadProductivaUnidadP }}</td>
+                <td class="border-2">{{ lote.proveedorRazonSocial }}</td>
+                <td class="border-2">
+                    <div class="option">
+                        <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(lote.id)"></button>
+                        <button pButton icon="pi pi-trash" class="delete" (click)="eliminarLote(lote.id)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <app-agregar-editar-lote *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
+        [selectedLote]="selectedLote" (clickClose)="hideAddModal($event)"
+        (clickAddEdit)="AgregarEditarLote($event)"></app-agregar-editar-lote>
+    <p-confirmDialog header="Delete"></p-confirmDialog>
+    <p-toast position="bottom-right"></p-toast>
+</div>

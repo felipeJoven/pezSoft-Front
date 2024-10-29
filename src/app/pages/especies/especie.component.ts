@@ -60,8 +60,8 @@ export class EspecieComponent implements OnInit, OnDestroy {
   obtenerEspecies(filtro: string = ''): void {
     this.subscriptions.add(
       this.especieService.obtenerEspecies(filtro).subscribe({
-        next: (especies) => {
-          this.especie = especies;
+        next: (especie) => {
+          this.especie = especie;
         },
         error: (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
@@ -71,7 +71,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
     );
   }
 
-  guardar_editarEspecieList(newData: Especie): void {
+  agregarEditarEspecie(newData: Especie): void {
     if (this.selectedEspecie && newData.id === this.selectedEspecie.id) {
       const especieIndex = this.especie.findIndex(data => data.id === newData.id);
       if (especieIndex !== -1) {
@@ -86,7 +86,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
     this.selectedEspecie = id;
   }
 
-  eliminar(id: number): void {
+  eliminarEspecie(id: number): void {
     this.confirmationService.confirm({
       message: '¿Quieres eliminar esta especie?',
       header: 'Confirmación de eliminación',

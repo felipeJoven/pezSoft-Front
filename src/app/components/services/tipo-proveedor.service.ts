@@ -8,6 +8,7 @@ import { TipoProveedor } from '../models/tipo-proveedor';
 })
 
 export class TipoProveedorService {
+  
   private apiUrl = 'http://localhost:8080/tipo-proveedor'
 
   constructor( private http: HttpClient) { }

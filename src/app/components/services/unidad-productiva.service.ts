@@ -17,7 +17,7 @@ export class UnidadProductivaService {
       params = params.set('filtro', filtro);
     }
     return this.http.get<UnidadProductiva[]>(this.apiUrl, { params }).pipe(
-      catchError(this.handleError)
+      catchError(this.manejarError)
     );
   }
 
@@ -31,23 +31,23 @@ export class UnidadProductivaService {
     if (!selectUnidad) {
       return this.http.post(this.apiUrl, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.handleError)
+        catchError(this.manejarError)
       );
     } else {
       return this.http.put(`${this.apiUrl}/${selectUnidad}`, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.handleError)
+        catchError(this.manejarError)
       );
     }
   }
 
   eliminarUnidadProductiva(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
-      catchError(this.handleError)
+      catchError(this.manejarError)
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private manejarError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';
     if (error.error instanceof ErrorEvent) {
       // Error del lado del cliente

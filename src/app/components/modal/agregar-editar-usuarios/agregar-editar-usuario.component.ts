@@ -11,111 +11,103 @@ import { RolService } from '../../services/rol.service';
   styleUrls: ['./agregar-editar-usuario.component.css']
 })
 export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
-  rol: Rol[] = [];
+
   @Input() displayAddEditModal: boolean = true;
   @Input() selectedUsuario: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
-  modalType = "Guardar";
 
-  form = this.fb.group({
-    username: ["", Validators.required],
-    password: ["", Validators.required],
-    confirmPassword: ["", Validators.required],
+  modalType = "Guardar";
+  isPassword: boolean = false;
+  usuarioForm = this.fb.group({
+    usuario: ["", Validators.required],
+    password: [null, Validators.required],
+    confirmPassword: [null, Validators.required],
     nombre: ["", Validators.required],
     apellido: ["", Validators.required],
     telefono: [0, Validators.required],
     email: ["", Validators.required],
-    rol: [0, Validators.required],
+    rolId: [0, Validators.required]
   })
+  rol: Rol[] = [];
 
   constructor(
-    private fb: FormBuilder,
     private usuarioService: UsuarioService,
+    private fb: FormBuilder,
     private messageService: MessageService,
     private rolService: RolService
-  ){}
+  ) { }
 
   ngOnInit(): void {
-    this.getRol();
-  }
-
-  onKeyPress(event: KeyboardEvent) {
-    // Obtiene el código de la tecla presionada
-    const keyCode = event.which || event.keyCode;
-  
-    // Permite solo números (0-9)
-    if (keyCode < 48 || keyCode > 57) {
-      event.preventDefault();
-    }
+    this.obtenerUsuario();
+    this.obtenerRoles();
   }
 
   ngOnChanges(): void {
-    if(this.selectedUsuario){
+    if (this.selectedUsuario) {
       this.modalType = "Actualizar";
-      this.form.patchValue(this.selectedUsuario);
-    }else {
+      this.usuarioForm.patchValue(this.selectedUsuario);
+    } else {
+      this.usuarioForm.reset();
       this.modalType = 'Guardar'
-      this.form.reset();
     }
   }
 
-  closeModal(){
-    this.form.reset();
-    this.clickClose.emit(true);
-  }
-  
-  obtenerUsuarios(){
-    if(this.displayAddEditModal && this.selectedUsuario){
-      this.usuarioService.obtenerUsuarioPorId(this.selectedUsuario).subscribe(
+  obtenerUsuario() {
+    if (this.displayAddEditModal && this.selectedUsuario) {
+      const usuarioId = typeof this.selectedUsuario === 'object' ? this.selectedUsuario.id : this.selectedUsuario;
+      this.usuarioService.obtenerUsuarioPorId(usuarioId).subscribe(
         response => {
-          this.form.get('username')?.setValue(response.usuario);
-          this.form.get('nombre')?.setValue(response.nombre);
-          this.form.get('apellido')?.setValue(response.apellido);
-          this.form.get('telefono')?.setValue(response.telefono);
-          this.form.get('email')?.setValue(response.email);
-          this.form.controls['rol']?.setValue(response.rol.id);
+          this.usuarioForm.get('usuario')?.setValue(response.usuario);
+          this.usuarioForm.get('nombre')?.setValue(response.nombre);
+          this.usuarioForm.get('apellido')?.setValue(response.apellido);
+          this.usuarioForm.get('telefono')?.setValue(response.telefono);
+          this.usuarioForm.get('email')?.setValue(response.email);
+          this.usuarioForm.controls['rolId'].setValue(response.rolId);
         }
       )
     }
   }
 
-  getRol(){
-    this.rolService.obtenerRoles().subscribe(
-      response => {
-        this.rol = response
-      }
-    )
-  }
-
-  agregarEditarUsuario(){
-    const usersData = {
-      nombre: this.form.get('nombre')?.value,
-      apellido: this.form.get('apellido')?.value,
-      username: this.form.get('username')?.value,
-      email: this.form.get('email')?.value,
-      password: this.form.get('password')?.value,
-      confirmPassword: this.form.get('confirmPassword')?.value,
-      telefono: this.form.get('telefono')?.value,
-      rolId: this.form.get('rol')?.value
-    }    
-    this.usuarioService.agregarEditarUsuario(usersData, this.selectedUsuario).subscribe({
+  obtenerRoles() {
+    this.rolService.obtenerRoles().subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
-        this.clickAddEdit.emit(response);
-        this.closeModal();
-        const msg = this.modalType === 'Guardar' ? 'Registro Guardado' : 'Registro Actualizado';
-        this.messageService.add({severity: 'success', summary: 'Exitoso', detail: msg});
+        this.rol = response;
       },
       error: (error) => {
-        console.error('Error del servidor:', error);
-        const errorMessage = error.error?.message || error.statusText || 'Error inesperado';
-        this.messageService.add({severity: 'error', summary: 'Error', detail: errorMessage});
-      },
-      complete: () => {
-        console.log('Proceso completado');
+        console.error("Error al obtener roles: ", error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los roles' });
       }
     });
-  }  
-}
+  }
 
+  agregarEditarUsuario() {
+    const usuarioData = {
+      usuario: this.usuarioForm.get('usuario')?.value,
+      password: this.usuarioForm.get('password')?.value ? this.usuarioForm.get('password')?.value : null,
+      confirmPassword: this.usuarioForm.get('confirmPassword')?.value ? this.usuarioForm.get('confirmPassword')?.value : null,
+      nombre: this.usuarioForm.get('nombre')?.value,
+      apellido: this.usuarioForm.get('apellido')?.value,
+      email: this.usuarioForm.get('email')?.value,
+      telefono: this.usuarioForm.get('telefono')?.value,
+      rolId: this.usuarioForm.get('rolId')?.value
+    }
+    const usuarioId = this.selectedUsuario ? (typeof this.selectedUsuario === 'object' ? this.selectedUsuario.id : this.selectedUsuario) : null;
+    this.usuarioService.agregarEditarUsuario(usuarioData, usuarioId).subscribe({
+      next: (response) => {
+        this.clickAddEdit.emit(response);
+        this.closeModal();
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
+      },
+      error: (error) => {
+        console.error(error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message || 'Ocurrió un error al procesar la solicitud' });
+      }
+    });
+  }
+
+  closeModal() {
+    this.usuarioForm.reset();
+    this.clickClose.emit(true);
+  }
+}
