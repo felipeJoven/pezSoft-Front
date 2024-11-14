@@ -12,7 +12,7 @@ import { adminGuard } from './components/services/guards/admin.guard';
 import { PescaComponent } from './pages/pesca/pesca.component';
 import { MortalidadComponent } from './pages/mortalidad/mortalidad.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'welcome', component: WelcomeComponent, canActivate: [authGuard]  },

@@ -6,7 +6,6 @@ import { TipoProveedor } from '../models/tipo-proveedor';
 @Injectable({
   providedIn: 'root'
 })
-
 export class TipoProveedorService {
   
   private apiUrl = 'http://localhost:8080/tipo-proveedor'

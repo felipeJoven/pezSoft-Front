@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
-import { Mortaliad } from '../../components/models/mortalidad';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { Mortalidad } from '../../components/models/mortalidad';
 import { MortalidadService } from '../../components/services/mortalidad.service';
 
 @Component({
@@ -11,11 +11,12 @@ import { MortalidadService } from '../../components/services/mortalidad.service'
 })
 export class MortalidadComponent {
 
-  mortalidads: Mortaliad[] = [];
+  mortalidad: Mortalidad[] = [];
+  filtro: string = '';
   displayAddEditModal = false;
-  selectedMortalidad: any = null;
-  subscriptions: Subscription[] = [];
-  LSubscription: Subscription = new Subscription();
+  mortalidadSeleccionada: any = null;
+  private subscriptions = new Subscription();
+  private filtroSubject = new Subject<string>();
 
   constructor(
     private mortalidadService: MortalidadService,
@@ -24,23 +25,55 @@ export class MortalidadComponent {
   ) { }
   
   ngOnInit(): void {
-    this.obtenerMortalidad();
+    this.obtenerMortalidades();
   }
 
   showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedMortalidad = null;
+    this.mortalidadSeleccionada = null;
   }
 
   hideAddModal(isClosed: boolean) {
-    this.obtenerMortalidad();
+    this.obtenerMortalidades();
     this.displayAddEditModal = !isClosed;
   }
 
-  guardaroEditarMortalidadList(newData: any) {
-    if (this.selectedMortalidad && newData.id === this.selectedMortalidad.id) {
-      const mortalidadIndex = this.mortalidads.findIndex(data => data.id === newData.id);
-      this.mortalidads[mortalidadIndex] = newData;
+  setupFiltroSubscription(): void {
+    this.subscriptions.add(
+      this.filtroSubject.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(filtro => {
+        this.obtenerMortalidades(filtro);
+      })
+    );
+  } 
+
+  onFiltroChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.filtroSubject.next(inputElement.value);
+  }
+
+  obtenerMortalidades(filtro: string = ''): void {
+    this.subscriptions.add(
+      this.mortalidadService.obtenerMortalidades(filtro).subscribe({
+        next: (mortalidad) => {
+          this.mortalidad = mortalidad;     
+        },
+        error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+            console.log('Error al obtener mortalidades', error);
+            
+        }
+      })
+    );
+  }
+
+
+  agregarEditarMortalidad(newData: any) {
+    if (this.mortalidadSeleccionada && newData.id === this.mortalidadSeleccionada.id) {
+      const mortalidadIndex = this.mortalidad.findIndex(data => data.id === newData.id);
+      this.mortalidad[mortalidadIndex] = newData;
     }
   }
 
@@ -50,36 +83,26 @@ export class MortalidadComponent {
       header: 'Confirmacion de Eliminar Registro',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.mortalidadService.eliminarMortalidad(id).subscribe(
-          response => {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registro Elimindo' })
-            this.obtenerMortalidad();
+        this.mortalidadService.eliminarMortalidad(id).subscribe({
+          next: (response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message })
+            this.obtenerMortalidades();
           },
-          error => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: error })
+          error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error || 'Error desconocido' });
+            console.log('Error al obtener mortalidades', error);
           }
-        )
-      },
-    }
-    )
-  };
+        })
+      }
+    });
+  }
 
   showEdit(id: number) {
     this.displayAddEditModal = true;
-    this.selectedMortalidad = id;
-  }
-
-  obtenerMortalidad(): void {
-    this.mortalidadService.obtenerMortalidad().subscribe(mortalidad => {
-
-      this.mortalidads = mortalidad;
-      console.log(this.mortalidads);
-
-    });
-    this.subscriptions.push(this.LSubscription)
+    this.mortalidadSeleccionada = id;
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 }

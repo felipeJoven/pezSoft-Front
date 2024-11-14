@@ -1,7 +1,8 @@
 import {Lote} from './lote';
 
-export class Mortaliad {
+export class Mortalidad {
     id: number;
+    fechaCreacion: Date;
     pecesMuertos: number;
     observacion: string;
     lote: Lote;

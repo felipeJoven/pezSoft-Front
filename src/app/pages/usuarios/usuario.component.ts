@@ -15,7 +15,7 @@ export class UsuarioComponent implements OnInit, OnDestroy{
   usuario: Usuario[] = [];
   filtro: string = '';
   displayAddEditModal = false;
-  selectedUsuario: any = null;
+  usuarioSeleccionado: any = null;
   private subscriptions = new Subscription();
   private filtroSubject = new Subject<string>();
 
@@ -32,7 +32,7 @@ export class UsuarioComponent implements OnInit, OnDestroy{
 
   showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedUsuario = null;
+    this.usuarioSeleccionado = null;
   }
 
   hideAddModal(isClosed: boolean) {
@@ -74,7 +74,7 @@ export class UsuarioComponent implements OnInit, OnDestroy{
   }
 
   agregarEditarUsuario(newData: Usuario): void {
-    if (this.selectedUsuario && newData.id == this.selectedUsuario.id) {
+    if (this.usuarioSeleccionado && newData.id == this.usuarioSeleccionado.id) {
       const usuarioIndex = this.usuario.findIndex(data => data.id === newData.id);
       if (usuarioIndex !== -1) {
         this.usuario[usuarioIndex] = newData;
@@ -85,7 +85,7 @@ export class UsuarioComponent implements OnInit, OnDestroy{
 
   showEdit(id: number) {
     this.displayAddEditModal = true;
-    this.selectedUsuario = id;
+    this.usuarioSeleccionado = id;
   }
 
   eliminarUsuario(id: number): void {

@@ -14,7 +14,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
   proveedor: Proveedor[] = [];
   filtro: string = '';
   displayAddEditModal = false;
-  selectedProveedor: any = null;
+  proveedorSeleccionado: any = null;
   private subscriptions = new Subscription();
   private filtroSubject = new Subject<string>();
 
@@ -31,7 +31,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
 
   showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedProveedor = null;
+    this.proveedorSeleccionado = null;
   }
 
   hideAddModal(isClosed: boolean): void {
@@ -72,7 +72,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
   }
 
   agregarEditarProveedor(newData: Proveedor): void {
-    if (this.selectedProveedor && newData.id === this.selectedProveedor.id) {
+    if (this.proveedorSeleccionado && newData.id === this.proveedorSeleccionado.id) {
       const proveedorIndex = this.proveedor.findIndex(data => data.id === newData.id);
       if (proveedorIndex !== -1) {
         this.proveedor[proveedorIndex] = newData;
@@ -83,7 +83,7 @@ export class ProveedorComponent implements OnInit, OnDestroy {
 
   showEdit(id: number): void {
     this.displayAddEditModal = true;
-    this.selectedProveedor = id;
+    this.proveedorSeleccionado = id;
   }
 
   eliminarProveedor(id: number): void {

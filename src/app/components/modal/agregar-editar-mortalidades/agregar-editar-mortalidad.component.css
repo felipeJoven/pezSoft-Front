@@ -1,0 +1,33 @@
+/* Aplica el estilo a todos los inputs */
+input {
+  padding: 0.5rem; 
+  border-radius: 0.75rem; 
+  border: 1px solid #6b7280; 
+}
+
+/* Estilos para las opciones (botones) */
+.custom-button {
+  background-color: #036927; 
+  color: white;
+  border-radius: 0.75rem; 
+  padding-top: 0.75rem; 
+  padding-bottom: 0.75rem; 
+  padding-left: 0.5rem; 
+  padding-right: 0.5rem;   
+  transition: background-color 0.3s ease, transform 0.3s ease; /
+}
+
+.custom-button:hover {
+  background-color: #040456; 
+  transform: scale(1.05); 
+}
+
+.cancel-button {
+  border-radius: 0.75rem; 
+  padding: 0.5rem 1rem;
+}
+
+.cancel-button:hover {
+  background-color: #e2e8f0; 
+  transform: scale(1.05); 
+}

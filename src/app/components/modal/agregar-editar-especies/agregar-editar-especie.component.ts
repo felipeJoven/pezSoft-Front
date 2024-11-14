@@ -1,6 +1,7 @@
-import { Component,EventEmitter,Input,OnChanges,OnInit,Output } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import {MessageService} from 'primeng/api';
+
 import { EspecieService } from '../../services/especie.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { EspecieService } from '../../services/especie.service';
 export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedEspecie: any = null;
+  @Input() especieSeleccionada: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
   
@@ -24,25 +25,25 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private especieService: EspecieService,
     private messageService: MessageService
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerEspecie();
   }
 
   ngOnChanges(): void {
-    if(this.selectedEspecie){
+    if(this.especieSeleccionada) {
       this.modalType = 'Actualizar';
-      this.especieForm.patchValue(this.selectedEspecie);
+      this.especieForm.patchValue(this.especieSeleccionada);
     }else{
       this.especieForm.reset();
       this.modalType = 'Guardar';
     }
   }
 
-  obtenerEspecie(){
-    if(this.displayAddEditModal && this.selectedEspecie){
-      const especieId = typeof this.selectedEspecie === 'object' ? this.selectedEspecie.id : this.selectedEspecie;
+  obtenerEspecie() {
+    if(this.displayAddEditModal && this.especieSeleccionada) {
+      const especieId = typeof this.especieSeleccionada === 'object' ? this.especieSeleccionada.id : this.especieSeleccionada;
       this.especieService.obtenerEspeciePorId(especieId).subscribe(
         response => {
           this.especieForm.get('especie')?.setValue(response.especie);
@@ -51,11 +52,11 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
     }
   }
 
-  agregarEditarEspecie() {
+  modalEspecie() {
     const especieData = {
       especie: this.especieForm.get('especie')?.value
     };
-    const especieId = this.selectedEspecie ? (typeof this.selectedEspecie === 'object' ? this.selectedEspecie.id : this.selectedEspecie) : null;
+    const especieId = this.especieSeleccionada ? (typeof this.especieSeleccionada === 'object' ? this.especieSeleccionada.id : this.especieSeleccionada) : null;
     this.especieService.agregarEditarEspecie(especieData, especieId).subscribe({
       next: (response: any) => {
         this.clickAddEdit.emit(response);
@@ -69,7 +70,7 @@ export class AgregarEditarEspecieComponent implements OnInit, OnChanges {
     });
   }
   
-  closeModal(){
+  closeModal() {
     this.especieForm.reset();
     this.clickClose.emit(true);
   }

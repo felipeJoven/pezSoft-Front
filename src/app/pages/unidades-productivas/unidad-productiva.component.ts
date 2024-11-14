@@ -128,4 +128,3 @@ export class UnidadProductivaComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 }
-

@@ -32,7 +32,7 @@ export class AppComponent {
     this.isSideNavCollapsed = data.collapsed;
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { TipoProveedor } from '../../models/tipo-proveedor';
-import { TipoIdentificacion } from '../../models/tipo-identificacion';
-
-import { ProveedorService } from '../../services/proveedor.service';
-import { TipoProveedorService } from '../../services/tipo-proveedor.service';
-import { TipoIdentificacionService } from '../../services/tipo-identificacion.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+
+import { ProveedorService } from '../../services/proveedor.service';
+import { TipoIdentificacion } from '../../models/tipo-identificacion';
+import { TipoIdentificacionService } from '../../services/tipo-identificacion.service';
+import { TipoProveedor } from '../../models/tipo-proveedor';
+import { TipoProveedorService } from '../../services/tipo-proveedor.service';
 
 @Component({
   selector: 'app-agregar-editar-proveedor',
@@ -17,7 +17,7 @@ import { MessageService } from 'primeng/api';
 export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedProveedor: any = null;
+  @Input() proveedorSeleccionado: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
 
@@ -51,9 +51,9 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.selectedProveedor) {
+    if (this.proveedorSeleccionado) {
       this.modalType = 'Actualizar';
-      this.proveedorForm.patchValue(this.selectedProveedor);
+      this.proveedorForm.patchValue(this.proveedorSeleccionado);
     } else {
       this.proveedorForm.reset();
       this.modalType = 'Guardar';
@@ -61,8 +61,8 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
   }
 
   obtenerProveedor() {
-    if (this.displayAddEditModal && this.selectedProveedor) {
-      const proveedorId = typeof this.selectedProveedor === 'object' ? this.selectedProveedor.id : this.selectedProveedor;
+    if (this.displayAddEditModal && this.proveedorSeleccionado) {
+      const proveedorId = typeof this.proveedorSeleccionado === 'object' ? this.proveedorSeleccionado.id : this.proveedorSeleccionado;
       this.proveedorService.obtenerProveedorPorId(proveedorId).subscribe(
         response => {                  
           this.proveedorForm.get('razonSocial')?.setValue(response.razonSocial);
@@ -103,7 +103,7 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
     });   
   }
 
-  agregarEditarProveedor() {
+  modalProveedor() {
     const proveedorData = {
       nombre: this.proveedorForm.get('nombre')?.value,
       apellido: this.proveedorForm.get('apellido')?.value,
@@ -115,7 +115,7 @@ export class AgregarEditarProveedorComponent implements OnInit, OnChanges {
       tipoIdentificacionId: this.proveedorForm.get('tipoIdentificacionId')?.value,
       tipoProveedorId: this.proveedorForm.get('tipoProveedorId')?.value
     };       
-    const proveedorId = this.selectedProveedor ? (typeof this.selectedProveedor === 'object' ? this.selectedProveedor.id : this.selectedProveedor) : null;
+    const proveedorId = this.proveedorSeleccionado ? (typeof this.proveedorSeleccionado === 'object' ? this.proveedorSeleccionado.id : this.proveedorSeleccionado) : null;
     this.proveedorService.agregarEditarProveedor(proveedorData, proveedorId).subscribe({
       next: (response: any) => {
         this.clickAddEdit.emit(response);

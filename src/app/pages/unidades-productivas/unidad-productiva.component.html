@@ -2,8 +2,7 @@
   <div class="justify-content-between">
     <div class="table">Unidades Productivas</div>
   </div>
-
-  <p-table [value]="unidad" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
+  <p-table class="p-table" [value]="unidad" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
     <ng-template pTemplate="caption">
       <div class="header-container">
         <div class="search-container">
@@ -18,26 +17,26 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th class="border-2">N°</th>
-        <th class="border-2">Nombre del estanque</th>
-        <th class="border-2">Coordenadas</th>
-        <th class="border-2">Área</th>
-        <th class="border-2">Profundidad</th>
-        <th class="border-2">Observaciones</th>
-        <th class="border-2">Estado</th>
-        <th class="border-2">Opciones</th>
+        <th>N°</th>
+        <th>Nombre del estanque</th>
+        <th>Coordenadas</th>
+        <th>Área</th>
+        <th>Profundidad</th>
+        <th>Observaciones</th>
+        <th>Estado</th>
+        <th>Opciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-unidadP>
       <tr class="hover:bg-gray-300 cursor-pointer duration-300">
-        <td class="border-2">{{ rowIndex + 1 }}</td>
-        <td class="border-2">{{ unidadP.unidadP }}</td>
-        <td class="border-2">{{ unidadP.coordenadas }}</td>
-        <td class="border-2">{{ unidadP.area }}</td>
-        <td class="border-2">{{ unidadP.profundidad }} Mts</td>
-        <td class="border-2">{{ unidadP.observacion }}</td>
-        <td class="border-2">{{ verEstado(unidadP.estado) }}</td>
-        <td class="border-2">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ unidadP.unidadP }}</td>
+        <td>{{ unidadP.coordenadas }}</td>
+        <td>{{ unidadP.area }}</td>
+        <td>{{ unidadP.profundidad }} Mts</td>
+        <td>{{ unidadP.observacion }}</td>
+        <td>{{ verEstado(unidadP.estado) }}</td>
+        <td>
           <div class="option">
             <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(unidadP.id)"></button>
             <button pButton icon="pi pi-trash" class="delete" (click)="eliminarUnidad(unidadP.id)"></button>
@@ -46,9 +45,8 @@
       </tr>
     </ng-template>
   </p-table>
-
   <app-agregar-editar-unidad *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
-    [selectedUnidadP]="selectedUnidad" (clickClose)="hideAddModal($event)"
+    [unidadSeleccionada]="selectedUnidad" (clickClose)="hideAddModal($event)"
     (clickAddEdit)="agregarEditarUnidad($event)"></app-agregar-editar-unidad>
   <p-confirmDialog header="Delete"></p-confirmDialog>
   <p-toast position="bottom-right"></p-toast>

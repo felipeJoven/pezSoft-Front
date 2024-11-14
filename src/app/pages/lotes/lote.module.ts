@@ -14,11 +14,11 @@ import { DialogModule } from 'primeng/dialog';
 
 import { LoteComponent } from './lote.component';
 import { AgregarEditarLoteModule } from '../../components/modal/agregar-editar-lotes/agregar-editar-lote.module';
+import { RouterLink } from '@angular/router';
 
 @NgModule({
   declarations: [
     LoteComponent,
-    
   ],
   imports: [
     CommonModule,
@@ -31,6 +31,7 @@ import { AgregarEditarLoteModule } from '../../components/modal/agregar-editar-l
     ButtonModule,
     BrowserAnimationsModule,
     DialogModule,
+    RouterLink,
     AgregarEditarLoteModule
   ],
   providers: [

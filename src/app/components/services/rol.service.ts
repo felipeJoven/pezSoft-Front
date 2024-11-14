@@ -13,11 +13,11 @@ export class RolService {
     private http: HttpClient
   ) { }
 
-  obtenerRoles(): Observable<Rol[]>{
+  obtenerRoles(): Observable<Rol[]> {
     return this.http.get<Rol[]>(this.apiUrl);
   }
   
-  obtenerRolesPorId(id: number): Observable<Rol[]>{
+  obtenerRolesPorId(id: number): Observable<Rol[]> {
     return this.http.get<Rol[]>(this.apiUrl + `${id}`);
   }
 }

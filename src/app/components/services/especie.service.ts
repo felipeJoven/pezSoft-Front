@@ -1,7 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { Observable, map, catchError } from 'rxjs';
 import { Especie } from '../models/especie';
+import { ManejoErrorService } from './shared/manejo-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ import { Especie } from '../models/especie';
 export class EspecieService {
   private apiUrl = 'http://localhost:8080/especie'
 
-  constructor( private http: HttpClient) { }
+  constructor( 
+    private http: HttpClient,
+    private manejoError: ManejoErrorService
+  ) { }
 
   obtenerEspecies(filtro?: string): Observable<Especie[]> {
     let params = new HttpParams
@@ -18,7 +22,7 @@ export class EspecieService {
       params = params.set('filtro', filtro);
     }
     return this.http.get<Especie[]>(this.apiUrl, { params }).pipe(
-      catchError(this.manejarError)
+      catchError(this.manejoError.manejarError)
     );
   }
 
@@ -26,41 +30,25 @@ export class EspecieService {
     return this.http.get<Especie>(this.apiUrl + `/${id}`);
   }
 
-  agregarEditarEspecie(postData: any, selectEspecie: any): Observable<any> {
+  agregarEditarEspecie(postData: any, especieSeleccionada: any): Observable<any> {
     const headers = new HttpHeaders().set('Accept', 'text/plain');
     const options = { headers: headers, responseType: 'text' as 'json' };
-    if (!selectEspecie) {
+    if (!especieSeleccionada) {
       return this.http.post(this.apiUrl, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.manejarError)
+        catchError(this.manejoError.manejarError)
       );
     } else {
-      return this.http.put(`${this.apiUrl}/${selectEspecie}`, postData, options).pipe(
+      return this.http.put(`${this.apiUrl}/${especieSeleccionada}`, postData, options).pipe(
         map(response => ({ message: response })),
-        catchError(this.manejarError)
+        catchError(this.manejoError.manejarError)
       );
     }
   }
 
   eliminarEspecie(id: number): Observable<any>{
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' }).pipe(
-      catchError(this.manejarError)
+      catchError(this.manejoError.manejarError)
     );
-  }
-
-  private manejarError(error: HttpErrorResponse) {
-    let errorMessage = 'Ocurrió un error desconocido';
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else if (typeof error.error === 'string') {
-      // El backend devolvió un error como texto
-      errorMessage = `Error: ${error.error}`;
-    } else {
-      // El backend devolvió un código de error
-      errorMessage = `Código de error: ${error.status}, mensaje: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
   }
 }

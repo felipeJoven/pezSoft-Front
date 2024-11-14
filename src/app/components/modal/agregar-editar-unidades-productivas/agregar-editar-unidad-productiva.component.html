@@ -1,6 +1,6 @@
 <p-dialog header="{{ modalType }} Unidad Productiva" [(visible)]="displayAddEditModal" [modal]="true"
   [draggable]="false" [resizable]="false" (onHide)="closeModal()">
-  <form [formGroup]="unidadPForm" class="unidadP-form">
+  <form [formGroup]="unidadPForm" class="form">
     <div class="row">
       <div class="field">
         <label class="block" for="unidadP">Nombre de la unidad productiva</label>
@@ -49,8 +49,7 @@
   </form>
 
   <ng-template pTemplate="footer">
-    <p-button class="custom-button" class="bg-gray-100 rounded-xl py-3 px-2 mr-2" (click)="closeModal()" label="Cancel"
-      styleClass="p-button-text"></p-button>
-    <p-button (click)="agregarEditarUnidadP()" label="{{ modalType }}" [disabled]="unidadPForm.invalid"></p-button>
+    <p-button class="custom-button" class="cancel-button" (click)="closeModal()" label="Cancel" styleClass="p-button-text"></p-button>
+    <p-button (click)="modalUnidadP()" label="{{ modalType }}" [disabled]="unidadPForm.invalid"></p-button>
   </ng-template>
 </p-dialog>

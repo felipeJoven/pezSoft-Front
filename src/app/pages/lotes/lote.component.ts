@@ -14,7 +14,7 @@ export class LoteComponent implements OnInit, OnDestroy {
   lote: Lote[] = [];
   filtro: string = '';
   displayAddEditModal = false;
-  selectedLote: any = null;
+  loteSeleccionado: any = null;
   private subscriptions = new Subscription();
   private filtroSubject = new Subject<string>();
   
@@ -31,7 +31,7 @@ export class LoteComponent implements OnInit, OnDestroy {
 
   showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedLote = null;
+    this.loteSeleccionado = null;
   }
 
   hideAddModal(isClosed: boolean): void {
@@ -71,18 +71,13 @@ export class LoteComponent implements OnInit, OnDestroy {
     );    
   }
 
-  AgregarEditarLote(newData: Lote): void {
-    if (this.selectedLote && newData.id === this.selectedLote.id) {
+  agregarEditarLote(newData: Lote): void {
+    if (this.loteSeleccionado && newData.id === this.loteSeleccionado.id) {
       const loteIndex = this.lote.findIndex(data => data.id === newData.id);
       if (loteIndex !== 1) {
         this.lote[loteIndex] = newData;
       }
     }
-  }
-
-  showEdit(id: number) {
-    this.displayAddEditModal = true;
-    this.selectedLote = id;
   }
 
   eliminarLote(id: number): void {
@@ -114,6 +109,11 @@ export class LoteComponent implements OnInit, OnDestroy {
         })
       }
     })
+  }
+
+  showEdit(id: number) {
+    this.displayAddEditModal = true;
+    this.loteSeleccionado = id;
   }
 
   ngOnDestroy(): void {

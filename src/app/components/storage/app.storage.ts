@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class AppStorage {
+  
   token$ = new BehaviorSubject<string | undefined>(undefined);
 
   setToken(token: string) {
@@ -18,6 +19,7 @@ export class AppStorage {
   }
 
   setUsuario(usuario: string) {
+    this.token$.next(usuario);
     localStorage.setItem("usuario", usuario);
   }
 
@@ -26,6 +28,7 @@ export class AppStorage {
   }
 
   setRol(rol: string) {
+    this.token$.next(rol);
     localStorage.setItem("rol", rol);
   }
 

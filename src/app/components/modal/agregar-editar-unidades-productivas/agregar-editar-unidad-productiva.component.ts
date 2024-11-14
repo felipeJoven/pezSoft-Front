@@ -1,7 +1,9 @@
-import { Component,EventEmitter,Input,OnChanges,OnInit,Output, SimpleChanges } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import {MessageService} from 'primeng/api';
+
 import { UnidadProductivaService } from '../../services/unidad-productiva.service';
+
 @Component({
   selector: 'app-agregar-editar-unidad',
   templateUrl: './agregar-editar-unidad-productiva.component.html',
@@ -11,7 +13,7 @@ import { UnidadProductivaService } from '../../services/unidad-productiva.servic
 export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedUnidadP: any = null;
+  @Input() unidadSeleccionada: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
   
@@ -28,30 +30,30 @@ export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private unidadProductivaService: UnidadProductivaService,
     private messageService: MessageService
-  ){}
+  ) { }
   
   ngOnInit(): void {
     this.obtenerUnidadP();
   }
 
   ngOnChanges(): void {
-    if(this.selectedUnidadP){
+    if(this.unidadSeleccionada) {
       this.modalType = 'Actualizar';
-      this.unidadPForm.patchValue(this.selectedUnidadP);
+      this.unidadPForm.patchValue(this.unidadSeleccionada);
     }else{
       this.unidadPForm.reset();
       this.modalType = 'Guardar';
     }
   }
 
-  closeModal(){
+  closeModal() {
     this.unidadPForm.reset();
     this.clickClose.emit(true);
   }
 
-  obtenerUnidadP(){
-    if(this.displayAddEditModal && this.selectedUnidadP){
-      this.unidadProductivaService.obtenerUnidadProductivaPorId(this.selectedUnidadP).subscribe(
+  obtenerUnidadP() {
+    if(this.displayAddEditModal && this.unidadSeleccionada) {
+      this.unidadProductivaService.obtenerUnidadProductivaPorId(this.unidadSeleccionada).subscribe(
         response => {
           this.unidadPForm.get('unidadP')?.setValue(response.unidadP);
           this.unidadPForm.get('coordenadas')?.setValue(response.coordenadas);
@@ -63,7 +65,7 @@ export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
     }
   }
 
-  agregarEditarUnidadP(){
+  modalUnidadP() {
     const unidadPData = {
       unidadP: this.unidadPForm.get('unidadP')?.value,
       coordenadas: this.unidadPForm.get('coordenadas')?.value,
@@ -72,7 +74,7 @@ export class AgregarEditarUnidadPComponent implements OnInit, OnChanges {
       observacion: this.unidadPForm.get('observacion')?.value
     }
 
-    this.unidadProductivaService.agregarEditarUnidadP(unidadPData, this.selectedUnidadP).subscribe(
+    this.unidadProductivaService.agregarEditarUnidadP(unidadPData, this.unidadSeleccionada).subscribe(
       response =>{
         this.clickAddEdit.emit(response);
         this.closeModal();

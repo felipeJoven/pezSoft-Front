@@ -14,7 +14,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
   especie: Especie[] = [];
   filtro: string = '';
   displayAddEditModal = false;
-  selectedEspecie: any = null;
+  especieSeleccionada: any = null;
   private subscriptions = new Subscription();
   private filtroSubject = new Subject<string>();
 
@@ -31,7 +31,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
 
   showAddModal(): void {
     this.displayAddEditModal = true;
-    this.selectedEspecie = null;
+    this.especieSeleccionada = null;
   }
 
   hideAddModal(isClosed: boolean): void {
@@ -72,7 +72,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
   }
 
   agregarEditarEspecie(newData: Especie): void {
-    if (this.selectedEspecie && newData.id === this.selectedEspecie.id) {
+    if (this.especieSeleccionada && newData.id === this.especieSeleccionada.id) {
       const especieIndex = this.especie.findIndex(data => data.id === newData.id);
       if (especieIndex !== -1) {
         this.especie[especieIndex] = newData;
@@ -83,7 +83,7 @@ export class EspecieComponent implements OnInit, OnDestroy {
 
   showEdit(id: number): void {
     this.displayAddEditModal = true;
-    this.selectedEspecie = id;
+    this.especieSeleccionada = id;
   }
 
   eliminarEspecie(id: number): void {

@@ -1,23 +1,111 @@
-.h1 {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    color: #fff;
-    background: #EC6708;
-    border-radius: 5px;
-  }
-  
-  p-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 1px solid #ddd;
-  }
-  
-  th{
-    text-align: center;
-  }
-  
-  td{
-    text-align: center;
-  }
+/* Estilo para la tarjeta */
+.card {
+  margin: 0;
+  padding: 0;
+  width: 150vh;
+  height: auto;
+}
+
+/* Estilo para el encabezado de la tabla */
+.table {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fafafa;
+  background-color: #2d44f3;
+  border-radius: 5px;
+}
+
+/* Estilo general para p-table */
+.p-table {
+  border: 3px solid #cccccc; /* border-gray-400 */
+  border-radius: 0.5rem;
+}
+
+/* Estilos para el contenedor del encabezado */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem;
+}
+
+.search {
+  padding: 0.5rem;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-right: 25rem;
+}
+
+.search-container input {
+  width: 250px;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #000;
+}
+
+/* Botón personalizado */
+.custom-button {
+  background-color: #036927;
+  border-radius: 0.75rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #022d11;
+  transform: scale(1.05);
+}
+
+/* Estilos para las filas de la tabla */
+.items {
+  transition-duration: 300ms;
+  cursor: pointer;
+}
+
+.items:hover {
+  background-color: #e2e8f0;
+}
+
+/* Estilos para las opciones (botones) */
+.option {
+  display: flex;
+  justify-content: center;
+}
+
+.edit {
+  background-color: #b4a21a;
+  border-radius: 0.75rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 1rem;
+}
+
+.delete {
+  background-color: #ad0c0c;
+  border-radius: 0.75rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-left: 1rem;
+}
+
+.edit:hover,
+.delete:hover {
+  background-color: #040456;
+  transform: scale(1.05);
+}
+
+/* Estilo para las celdas de la tabla */
+th,
+td {
+  text-align: center;
+  border: 2px solid #ccc; 
+}

@@ -1,48 +1,35 @@
-<p-dialog header="{{modalType}} Mortalidad" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+<p-dialog header="{{ modalType }} Mortalidad" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
     [resizable]="false" (onHide)="closeModal()">
-    <form [formGroup]="form" class="mortalidad-form">
-
+    <form [formGroup]="mortalidadForm" class="mortalidad-mortalidadForm">
         <div class="row">
             <div class="field">
-                <label class="block" for="animalesMuertos">Animales Muertos</label>
-                <input type="text" pInputText id="animalesPescados" formControlName="animalesMuertos">
-                <small class="p-error block" *ngIf="
-                    form.controls['animalesMuertos'].invalid &&
-                    form.controls['animalesMuertos'].dirty
-                    ">Campo Obligatorio*</small>
+                <label class="block" for="pecesMuertos">Peces Muertos</label>
+                <input id="pecesMuertos" class="input" type="text" pInputText formControlName="pecesMuertos">
+                <small class="p-error block" *ngIf="mortalidadForm.controls['pecesMuertos'].invalid &&
+                    mortalidadForm.controls['pecesMuertos'].dirty">Campo requerido *
+                </small>
             </div>
-
             <div class="field">
                 <label class="block" for="observacion">Observaciones</label>
-                <input name="observacion" type="text" pInputText id="observacion" formControlName="observacion">
-                <small class="p-error block" *ngIf="
-                    form.controls['observacion'].invalid &&
-                    form.controls['observacion'].dirty
-                    ">Campo Obligatorio*</small>
+                <input id="observacion" name="observacion" type="text" pInputText formControlName="observacion">
+                <small class="p-error block" *ngIf="mortalidadForm.controls['observacion'].invalid &&
+                    mortalidadForm.controls['observacion'].dirty">Campo requerido *
+                </small>
             </div>
-
             <div class="field">
-                <label class="block" for="lote">Lote</label>
-                <select class="select" name="lote" type="text" formControlName="lote">
-                    <option>Seleccionar una Opcion</option>
-                    <option *ngFor="let lot of lotes" [value]="lot.id">
-                        {{lot.nombreLote}}
-                    </option>
-                </select>
-                <small class="p-error block" *ngIf="
-                    form.controls['lote'].invalid &&
-                    form.controls['lote'].dirty
-                    ">Campo Obligatorio*</small>
+                <label class="block" for="loteId">Lote</label>
+                <select id="loteId" class="select" name="loteId" formControlName="loteId">
+                    <option [ngValue]="null" disabled>Seleccionar una opción</option>
+                    <option *ngFor="let lote of lote" [value]="lote.id"> {{ lote.lote }}</option>
+                </select>                
+                <small class="p-error block" *ngIf="mortalidadForm.controls['loteId'].invalid &&
+                    (mortalidadForm.controls['loteId'].dirty || mortalidadForm.controls['loteId'].touched)">Campo requerido *                    
+                </small>
             </div>
-    
         </div>
     </form>
     <ng-template pTemplate="footer">
-            <p-button
-    class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
-    (click)="closeModal()"
-    label="Cancel"
-    styleClass="p-button-text"></p-button>
-        <p-button (click)="addEditMortalidad()" label="{{modalType}}" [disabled]="form.invalid"></p-button>
+        <p-button class="cancel-button" (click)="closeModal()" label="Cancel" styleClass="p-button-text"></p-button>
+        <p-button class="custom-button" (click)="modalMortalidad()" label="{{ modalType }}" [disabled]="mortalidadForm.invalid"></p-button>
     </ng-template>
 </p-dialog>

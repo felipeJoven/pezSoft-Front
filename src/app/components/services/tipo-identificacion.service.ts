@@ -6,7 +6,6 @@ import { TipoIdentificacion } from '../models/tipo-identificacion';
 @Injectable({
   providedIn: 'root'
 })
-
 export class TipoIdentificacionService {  
   
   private apiUrl = 'http://localhost:8080/tipo-identificacion'

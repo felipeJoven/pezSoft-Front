@@ -27,7 +27,7 @@ export class AuthService {
   }
 
    //Cierra sesion y eliminamos el token del localStorage
-  logout(){
+  logout() {
     return !!this.appStorage.logout();
   }
 }

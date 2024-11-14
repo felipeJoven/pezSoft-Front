@@ -1,4 +1,4 @@
-<p-dialog header="{{modalType}} Lote" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+<p-dialog header="{{ modalType }} Lote" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
     [resizable]="false" (onHide)="closeModal()">
     <form [formGroup]="loteForm" class="lote-form">
         <div class="row">
@@ -19,7 +19,6 @@
                 </small>
             </div>
         </div>
-
         <div class="row">
             <div class="field">
                 <label class="block" for="numeroPeces">Numero de Peces</label>
@@ -32,12 +31,11 @@
             <div class="field">
                 <label class="block" for="especieId">Especie</label>
                 <select id="especieId" class="select" name="especieId" formControlName="especieId">
-                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
-                    <option *ngFor="let especie of especie" [ngValue]="especie.id">{{especie.especie}}</option>
+                    <option [ngValue]="null" disabled>Seleccionar una opción</option>
+                    <option *ngFor="let especie of especie" [ngValue]="especie.id">{{ especie.especie }}</option>
                 </select>
                 <small class="p-error block" *ngIf="loteForm.controls['especieId'].invalid &&
-                    (loteForm.controls['especieId'].dirty ||loteForm.controls['especieId'].touched)">
-                    Campo requerido *
+                    (loteForm.controls['especieId'].dirty ||loteForm.controls['especieId'].touched)">Campo requerido *
                 </small>
             </div>            
         </div>
@@ -45,32 +43,29 @@
             <div class="field">
                 <label class="block" for="unidadProductivaId">Unidad Productiva</label>
                 <select id="unidadProductivaId" class="select" name="unidadProductivaId" formControlName="unidadProductivaId">
-                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
-                    <option *ngFor="let unidadP of unidadProductiva" [value]="unidadP.id">{{unidadP.unidadP}}
+                    <option [ngValue]="null" disabled>Seleccionar una opción</option>
+                    <option *ngFor="let unidadP of unidadProductiva" [value]="unidadP.id">{{ unidadP.unidadP }}
                     </option>
                 </select>
                 <small class="p-error block" *ngIf="loteForm.controls['unidadProductivaId'].invalid &&
-                    (loteForm.controls['unidadProductivaId'].dirty ||loteForm.controls['unidadProductivaId'].touched)">
-                    Campo requerido *
+                    (loteForm.controls['unidadProductivaId'].dirty ||loteForm.controls['unidadProductivaId'].touched)">Campo requerido *
                 </small>
             </div>
             <div class="field">
                 <label class="block" for="proveedorId">Proveedor</label>
                 <select id="proveedorId" class="select" name="proveedorId" formControlName="proveedorId">
-                    <option [ngValue]="null" disabled>Seleccionar una Opción</option>
-                    <option *ngFor="let proveedor of proveedor" [value]="proveedor.id">{{proveedor.razonSocial}}
+                    <option [ngValue]="null" disabled>Seleccionar una opción</option>
+                    <option *ngFor="let proveedor of proveedor" [value]="proveedor.id">{{ proveedor.razonSocial }}
                     </option>
                 </select>
                 <small class="p-error block" *ngIf="loteForm.controls['proveedorId'].invalid &&
-                    (loteForm.controls['proveedorId'].dirty ||loteForm.controls['proveedorId'].touched)">
-                    Campo requerido *
+                    (loteForm.controls['proveedorId'].dirty ||loteForm.controls['proveedorId'].touched)">Campo requerido *
                 </small>
             </div>
         </div>
     </form>
     <ng-template pTemplate="footer">
-        <p-button class="bg-gray-100 rounded-xl py-3 px-2 mr-2" (click)="closeModal()" label="Cancel"
-            styleClass="p-button-text"></p-button>
-        <p-button class="custom-button" (click)="agregarEditarLote()" label="{{modalType}}" [disabled]="loteForm.invalid"></p-button>
+        <p-button class="cancel-button" (click)="closeModal()" label="Cancel" styleClass="p-button-text"></p-button>
+        <p-button class="custom-button" (click)="modalLote()" label="{{ modalType }}" [disabled]="loteForm.invalid"></p-button>
     </ng-template>
 </p-dialog>

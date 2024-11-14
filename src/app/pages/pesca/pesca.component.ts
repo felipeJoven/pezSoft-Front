@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { Pesca } from '../../components/models/pesca';
 import { PescaService } from '../../components/services/pesca.service';
-
 
 @Component({
   selector: 'app-pesca',
@@ -12,75 +11,99 @@ import { PescaService } from '../../components/services/pesca.service';
 })
 export class PescaComponent {
 
-  pescas: Pesca[] = [];
+  pesca: Pesca[] = [];
+  filtro: string = '';
   displayAddEditModal = false;
-  selectedPesca: any = null;
-  subscriptions: Subscription[] = [];
-  PSubscription: Subscription = new Subscription();
+  pescaSeleccionada: any = null;
+  private subscriptions = new Subscription();
+  private filtroSubject = new Subject<string>();
 
   constructor(
     private pescaService: PescaService,
     private confirationService: ConfirmationService,
     private messageService: MessageService
-  ){}
+  ) { }
 
   ngOnInit(): void {
-    this.obtenerPesca();
+    this.obtenerPescas();
+    this.setupFiltroSubscription();
   }
 
-  showAddModal(){
+  showAddModal() {
     this.displayAddEditModal = true;
-    this.selectedPesca = null;
+    this.pescaSeleccionada = null;
   }
 
-  hideAddModal(isClosed: boolean){
-    this.obtenerPesca();
+  hideAddModal(isClosed: boolean) {
+    this.obtenerPescas();
     this.displayAddEditModal = !isClosed;
   }
 
-  guardaroEditarPescaList(newData: any){
-    if(this.selectedPesca && newData.id === this.selectedPesca.id){
-      const pescaIndex = this.pescas.findIndex(data => data.id === newData.id);
-      this.pescas[pescaIndex] = newData;
+  setupFiltroSubscription(): void {
+    this.subscriptions.add(
+      this.filtroSubject.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(filtro => {
+        this.obtenerPescas(filtro);
+      })
+    );
+  } 
+
+  onFiltroChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.filtroSubject.next(inputElement.value);
+  }
+
+  obtenerPescas(filtro: string = ''): void {
+    this.subscriptions.add(
+      this.pescaService.obtenerPescas(filtro).subscribe({
+        next: (pesca) => {
+          this.pesca = pesca;
+        },
+        error: (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+          console.log('Error al obtener pescas', error);
+
+        }
+      })
+    );
+  }
+
+  agregarEditarPesca(newData: Pesca): void {
+    if (this.pescaSeleccionada && newData.id === this.pescaSeleccionada.id) {
+      const pescaIndex = this.pesca.findIndex(data => data.id === newData.id);
+      if (pescaIndex !== 1) {
+        this.pesca[pescaIndex] = newData;
+      }
     }
   }
 
-  eliminar(id: number): void{
+  eliminarPesca(id: number): void {
     this.confirationService.confirm({
       message: '¿Quieres Eliminar este Registro?',
-        header: 'Confirmacion de Eliminar Registro',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.pescaService.eliminarPesca(id).subscribe(
-            response => {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registro Elimindo' })
-              this.obtenerPesca();
-            },
-            error => {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: error })
-            }
-          )
-        }
+      header: 'Confirmacion de Eliminar Registro',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.pescaService.eliminarPesca(id).subscribe({
+          next: (response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message })
+            this.obtenerPescas();
+          },
+          error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error })
+          }
+        });
+      }
     })
   }
 
-  showEdit(id: number){
+  showEdit(id: number) {
     this.displayAddEditModal = true;
-    this.selectedPesca = id;
-  }
-
-  obtenerPesca():void{
-    this.pescaService.obtenerPesca().subscribe(pesca =>{
-
-      this.pescas = pesca;
-      console.log(this.pescas);
-      
-    });
-
-    this.subscriptions.push(this.PSubscription)
+    this.pescaSeleccionada = id;
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 }

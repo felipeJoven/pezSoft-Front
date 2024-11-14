@@ -1,14 +1,14 @@
-import { Component,EventEmitter,Input,OnChanges,OnInit,Output, SimpleChanges } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import { LoteService } from '../../services/lote.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
 import {MessageService} from 'primeng/api';
-import { Proveedor } from '../../models/proveedor';
-import { Especie } from '../../models/especie';
-import { UnidadProductiva } from '../../models/unidad-productiva';
-import { ProveedorService } from '../../services/proveedor.service';
-import { EspecieService } from '../../services/especie.service';
-import { UnidadProductivaService } from '../../services/unidad-productiva.service';
 
+import { LoteService } from '../../services/lote.service';
+import { Especie } from '../../models/especie';
+import { EspecieService } from '../../services/especie.service';
+import { UnidadProductiva } from '../../models/unidad-productiva';
+import { UnidadProductivaService } from '../../services/unidad-productiva.service';
+import { Proveedor } from '../../models/proveedor';
+import { ProveedorService } from '../../services/proveedor.service';
 
 @Component({
   selector: 'app-agregar-editar-lote',
@@ -18,7 +18,7 @@ import { UnidadProductivaService } from '../../services/unidad-productiva.servic
 export class AgregarEditarLoteComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedLote: any = null;
+  @Input() loteSeleccionado: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
   
@@ -42,28 +42,28 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
     private especieService: EspecieService,
     private unidadPService: UnidadProductivaService,
     private messageService: MessageService
-  ){ }
+  ) { }
 
   ngOnInit(): void {
     this.obtenerLote();    
     this.obtenerEspecies();
-    this.obtenerUnidadProductiva();
+    this.obtenerUnidadesProductivas();
     this.obtenerProveedores();
   }
 
   ngOnChanges(): void {
-    if (this.selectedLote) {
+    if (this.loteSeleccionado) {
       this.modalType = 'Actualizar';
-      this.loteForm.patchValue(this.selectedLote);
+      this.loteForm.patchValue(this.loteSeleccionado);
     } else {
       this.loteForm.reset();
       this.modalType = 'Guardar';
     }
   }
 
-  obtenerLote(){
-    if (this.displayAddEditModal && this.selectedLote) {
-      this.loteService.obtenerLotePorId(this.selectedLote).subscribe(
+  obtenerLote() {
+    if (this.displayAddEditModal && this.loteSeleccionado) {
+      this.loteService.obtenerLotePorId(this.loteSeleccionado).subscribe(
         response =>{
           this.loteForm.get('lote')?.setValue(response.lote);
           this.loteForm.get('numeroPeces')?.setValue(response.numeroPeces);                    
@@ -76,7 +76,7 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
     }
   }
 
-  obtenerEspecies(){
+  obtenerEspecies() {
     this.especieService.obtenerEspecies().subscribe({
       next: (response) => {
         this.especie = response;
@@ -88,7 +88,7 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
     });            
   }
 
-  obtenerUnidadProductiva(){
+  obtenerUnidadesProductivas() {
     this.unidadPService.obtenerUnidadesProductivas().subscribe({
       next: (response) => {
         this.unidadProductiva = response.filter((unidad) => unidad.estado === 0 );
@@ -100,7 +100,7 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
     });            
   }
   
-  obtenerProveedores(){
+  obtenerProveedores() {
     this.provedorService.obtenerProveedores().subscribe({
       next: (response) => {
         this.proveedor = response;
@@ -112,7 +112,7 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
     });            
   }
 
-  agregarEditarLote(){
+  modalLote() {
     const loteData = {
       lote: this.loteForm.get('lote')?.value,
       fechaSiembra: this.loteForm.get('fechaSiembra')?.value,
@@ -121,7 +121,7 @@ export class AgregarEditarLoteComponent implements OnInit, OnChanges {
       unidadProductivaId: this.loteForm.get('unidadProductivaId')?.value,
       proveedorId: this.loteForm.get('proveedorId')?.value
     };    
-    const loteId = this.selectedLote ? (typeof this.selectedLote === 'object' ? this.selectedLote.id : this.selectedLote) : null;
+    const loteId = this.loteSeleccionado ? (typeof this.loteSeleccionado === 'object' ? this.loteSeleccionado.id : this.loteSeleccionado) : null;
     this.loteService.agregarEditarLote(loteData, loteId).subscribe({
       next: (response: any) => {
         this.clickAddEdit.emit(response);

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { MessageService } from 'primeng/api';
+
 import { Rol } from '../../models/rol';
 import { RolService } from '../../services/rol.service';
 
@@ -13,7 +14,7 @@ import { RolService } from '../../services/rol.service';
 export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedUsuario: any = null;
+  @Input() usuarioSeleccionado: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
 
@@ -44,9 +45,9 @@ export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.selectedUsuario) {
+    if (this.usuarioSeleccionado) {
       this.modalType = "Actualizar";
-      this.usuarioForm.patchValue(this.selectedUsuario);
+      this.usuarioForm.patchValue(this.usuarioSeleccionado);
     } else {
       this.usuarioForm.reset();
       this.modalType = 'Guardar'
@@ -54,8 +55,8 @@ export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
   }
 
   obtenerUsuario() {
-    if (this.displayAddEditModal && this.selectedUsuario) {
-      const usuarioId = typeof this.selectedUsuario === 'object' ? this.selectedUsuario.id : this.selectedUsuario;
+    if (this.displayAddEditModal && this.usuarioSeleccionado) {
+      const usuarioId = typeof this.usuarioSeleccionado === 'object' ? this.usuarioSeleccionado.id : this.usuarioSeleccionado;
       this.usuarioService.obtenerUsuarioPorId(usuarioId).subscribe(
         response => {
           this.usuarioForm.get('usuario')?.setValue(response.usuario);
@@ -81,7 +82,7 @@ export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
     });
   }
 
-  agregarEditarUsuario() {
+  modalUsuario() {
     const usuarioData = {
       usuario: this.usuarioForm.get('usuario')?.value,
       password: this.usuarioForm.get('password')?.value ? this.usuarioForm.get('password')?.value : null,
@@ -92,7 +93,7 @@ export class AgregarEditarUsuarioComponent implements OnInit, OnChanges {
       telefono: this.usuarioForm.get('telefono')?.value,
       rolId: this.usuarioForm.get('rolId')?.value
     }
-    const usuarioId = this.selectedUsuario ? (typeof this.selectedUsuario === 'object' ? this.selectedUsuario.id : this.selectedUsuario) : null;
+    const usuarioId = this.usuarioSeleccionado ? (typeof this.usuarioSeleccionado === 'object' ? this.usuarioSeleccionado.id : this.usuarioSeleccionado) : null;
     this.usuarioService.agregarEditarUsuario(usuarioData, usuarioId).subscribe({
       next: (response) => {
         this.clickAddEdit.emit(response);

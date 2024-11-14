@@ -1,97 +1,105 @@
-import { Component,EventEmitter,Input,OnChanges,OnInit,Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
-import { Lote } from '../../models/lote';
 import { PescaService } from '../../services/pesca.service';
+import { Lote } from '../../models/lote';
 import { LoteService } from '../../services/lote.service';
 
 @Component({
-  selector: 'app-add-edit-pesca',
+  selector: 'app-agregar-editar-pesca',
   templateUrl: './agregar-editar-pesca.component.html',
   styleUrls: ['./agregar-editar-pesca.component.css']
 })
-export class AgregarEditarPescaComponent {
-
-  lotes: Lote[] = [];
+export class AgregarEditarPescaComponent implements OnInit, OnChanges {
 
   @Input() displayAddEditModal: boolean = true;
-  @Input() selectedPesca: any = null;
+  @Input() pescaSeleccionada: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAddEdit: EventEmitter<any> = new EventEmitter<any>();
-  modalType = "Guardar";
 
-  form= this.fb.group({
-    animalesPescados: [0, Validators.required],    
+  modalType = "Guardar";
+  pescaForm = this.fb.group({
+    pecesPescados: [0, Validators.required],
     pesoPromedio: [0, Validators.required],
-    lote: [0, Validators.required]
-  })
+    loteId: [0, Validators.required]
+  });
+  lote: Lote[] = [];
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private pescaService:  PescaService,
+    private pescaService: PescaService,
     private loteService: LoteService
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerPesca();
-    this.getLote();    
+    this.obtenerLotes();
   }
 
   ngOnChanges(): void {
-    if (this.selectedPesca) {
+    if (this.pescaSeleccionada) {
       this.modalType = 'Actualizar';
-      this.form.patchValue(this.selectedPesca);
+      this.pescaForm.patchValue(this.pescaSeleccionada);
     } else {
-      this.form.reset();
+      this.pescaForm.reset();
       this.modalType = 'Guardar';
     }
   }
-  
-  closeModal(){
-    this.form.reset();
-    this.clickClose.emit(true);
-  }
 
-  obtenerPesca(){
-    if(this.displayAddEditModal && this.selectedPesca){
-      this.pescaService.obtenerPescaPorId(this.selectedPesca).subscribe(
-        response => {
-          this.form.get('animalesPescados')?.setValue(response.pecesPescados);
-          this.form.get('pesoPromedio')?.setValue(response.pesoPromedio);
-          this.form.controls['lote'].setValue(response.lote.id);
-        }
-      )
-    }
-  }
-
-  addEditPesca(){
+  modalPesca() {
     const pescaData = {
-      animalesPescados: this.form.get('animalesPescados')?.value,
-      pesoPromedio: this.form.get('pesoPromedio')?.value,      
-      loteId: this.form.get('lote')?.value
-    }
-
-    this.pescaService.addEditPesca(pescaData, this.selectedPesca).subscribe(
-      response => {
+      pecesPescados: this.pescaForm.get('pecesPescados')?.value,
+      pesoPromedio: this.pescaForm.get('pesoPromedio')?.value,
+      loteId: this.pescaForm.get('loteId')?.value
+    };
+    const pescaId = this.pescaSeleccionada ? (typeof this.pescaSeleccionada === 'object' ? this.pescaSeleccionada.id : this.pescaSeleccionada) : null;
+    this.pescaService.agregarEditarPesca(pescaData, pescaId).subscribe({
+      next: (response: any) => {
         this.clickAddEdit.emit(response);
         this.closeModal();
-        const msg = this.modalType === 'Guardar' ? 'Registro Guardado' : 'Registro Actualizado';
-        this.messageService.add({severity: 'success', summary: 'Success', detail: msg});
-        console.log(this.modalType);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
       },
-      error => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: error});
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message || 'Ocurrió un error al procesar la solicitud' });
       }
-    )
+    });
   }
 
-  getLote(){
-    this.loteService.obtenerLotes().subscribe(
-      response =>{
-        this.lotes = response
+  obtenerPesca() {
+    if (this.displayAddEditModal && this.pescaSeleccionada) {
+      this.pescaService.obtenerPescaPorId(this.pescaSeleccionada).subscribe({
+        next: (response) => {
+          this.pescaForm.patchValue({
+            pecesPescados: response.pecesPescados,
+            pesoPromedio: response.pesoPromedio,
+            loteId: response.loteId
+          });
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo obtener los datos de mortalidad' });
+        }
+      });
+    }
+  }
+
+  obtenerLotes() {
+    this.loteService.obtenerLotes().subscribe({
+      next: (response) => {
+        this.lote = response;
+      },
+      error: (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los lotes' });
+        console.log("Error al obtener lotes: ", error);
       }
-    )
+    });
+  }
+
+  closeModal() {
+    this.pescaForm.reset();
+    this.clickClose.emit(true);
   }
 }

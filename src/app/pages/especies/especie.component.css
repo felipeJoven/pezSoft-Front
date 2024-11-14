@@ -1,3 +1,4 @@
+/* Estilo para la tarjeta */
 .card {
   margin: 0;
   padding: 0;
@@ -5,6 +6,7 @@
   height: auto;
 }
 
+/* Estilo para el encabezado de la tabla */
 .table {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -16,6 +18,13 @@
   border-radius: 5px;
 }
 
+/* Estilo general para p-table */
+.p-table {
+  border: 3px solid #cccccc; /* border-gray-400 */
+  border-radius: 0.5rem;
+}
+
+/* Estilos para el contenedor del encabezado */
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -37,9 +46,10 @@
   width: 250px;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  border: 1px solid #000000;
+  border: 1px solid #000;
 }
 
+/* Botón personalizado */
 .custom-button {
   background-color: #036927;
   border-radius: 0.75rem;
@@ -53,20 +63,17 @@
   transform: scale(1.05);
 }
 
-
-.custom-button {
-  background-color: #036927;
-  border-radius: 0.75rem;
-  color: white;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+/* Estilos para las filas de la tabla */
+.items {
+  transition-duration: 300ms;
+  cursor: pointer;
 }
 
-.custom-button:hover {
-  background-color: #022d11;
-  transform: scale(1.05);
+.items:hover {
+  background-color: #e2e8f0;
 }
 
+/* Estilos para las opciones (botones) */
 .option {
   display: flex;
   justify-content: center;
@@ -78,7 +85,7 @@
   color: white;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-right: 1rem; 
+  margin-right: 1rem;
 }
 
 .delete {
@@ -87,23 +94,18 @@
   color: white;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-left: 1rem; 
+  margin-left: 1rem;
 }
 
-.edit:hover, .delete:hover {
+.edit:hover,
+.delete:hover {
   background-color: #040456;
   transform: scale(1.05);
 }
 
-th {
-  text-align: center;
-}
-
+/* Estilo para las celdas de la tabla */
+th,
 td {
   text-align: center;
-}
-
-.resaltado {
-  background-color: yellow;
-  font-weight: bold;
+  border: 2px solid #ccc; 
 }

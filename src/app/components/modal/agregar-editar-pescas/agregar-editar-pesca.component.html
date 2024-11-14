@@ -1,49 +1,35 @@
-<p-dialog header="{{modalType}} Pesca" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
+<p-dialog header="{{ modalType }} Pesca" [(visible)]="displayAddEditModal" [modal]="true" [draggable]="false"
     [resizable]="false" (onHide)="closeModal()">
-    <form [formGroup]="form" class="pesca-form">
-
-        <div class="row">
-
+    <form [formGroup]="pescaForm" class="form">
+        <div class="row">            
             <div class="field">
-                <label class="block" for="lote">Lote</label>
-                <select class="select" name="lote" type="text" formControlName="lote">
-                    <option>Seleccionar una Opcion</option>
-                    <option *ngFor="let lote of lotes" [value]="lote.id">
-                        {{lote.nombreLote}}
-                    </option>
+                <label class="block" for="pecesPescados">Peces pescados</label>
+                <input id="pecesPescados" class="input" type="text" pInputText formControlName="pecesPescados">
+                <small class="p-error block" *ngIf="pescaForm.controls['pecesPescados'].invalid &&
+                    pescaForm.controls['pecesPescados'].dirty">Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="pesoPromedio">Peso promedio (Lb)</label>
+                <input id="pesoPromedio" name="pesoPromedio" type="text" pInputText formControlName="pesoPromedio">
+                <small class="p-error block" *ngIf="pescaForm.controls['pesoPromedio'].invalid &&
+                    pescaForm.controls['pesoPromedio'].dirty">Campo requerido *
+                </small>
+            </div>
+            <div class="field">
+                <label class="block" for="loteId">Lote</label>
+                <select id="loteId" class="select" name="loteId" formControlName="loteId">
+                    <option [ngValue]="null" disabled>Seleccionar una opción</option>
+                    <option *ngFor="let lote of lote" [value]="lote.id"> {{ lote.lote }}</option>
                 </select>
-                <small class="p-error block" *ngIf="
-                    form.controls['lote'].invalid &&
-                    form.controls['lote'].dirty
-                    ">Campo Obligatorio*</small>
+                <small class="p-error block" *ngIf="pescaForm.controls['loteId'].invalid &&
+                    (pescaForm.controls['loteId'].dirty || pescaForm.controls['loteId'].touched)">Campo requerido *
+                </small>
             </div>
-
-            <div class="field">
-                <label class="block" for="animalesPescados">Animales Pescados</label>
-                <input type="text" pInputText id="animalesPescados" formControlName="animalesPescados">
-                <small class="p-error block" *ngIf="
-                    form.controls['animalesPescados'].invalid &&
-                    form.controls['animalesPescados'].dirty
-                    ">Campo Obligatorio*</small>
-            </div>
-
-            <div class="field">
-                <label class="block" for="pesoPromedio">Peso Promedio</label>
-                <input name="pesoPromedio" type="text" pInputText id="pesoPromedio" formControlName="pesoPromedio">
-                <small class="p-error block" *ngIf="
-                    form.controls['pesoPromedio'].invalid &&
-                    form.controls['pesoPromedio'].dirty
-                    ">Campo Obligatorio*</small>
-            </div>
-    
         </div>
     </form>
     <ng-template pTemplate="footer">
-            <p-button
-    class="bg-gray-100 rounded-xl py-3 px-2 mr-2"
-    (click)="closeModal()"
-    label="Cancel"
-    styleClass="p-button-text"></p-button>
-        <p-button (click)="addEditPesca()" label="{{modalType}}" [disabled]="form.invalid"></p-button>
+        <p-button class="cancel-button" (click)="closeModal()" label="Cancel" styleClass="p-button-text"></p-button>
+        <p-button class="custom-button" (click)="modalPesca()" label="{{ modalType }}" [disabled]="pescaForm.invalid"></p-button>
     </ng-template>
 </p-dialog>

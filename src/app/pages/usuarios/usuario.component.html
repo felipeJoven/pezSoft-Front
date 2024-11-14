@@ -2,7 +2,7 @@
   <div class="justify-content-between">
     <div class="table">Usuarios</div>
   </div>
-  <p-table [value]="usuario" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
+  <p-table class="p-table" [value]="usuario" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]">
     <ng-template pTemplate="caption">
       <div class="header-container">
         <div class="search-container">
@@ -18,26 +18,26 @@
 
     <ng-template pTemplate="header">
       <tr class="border-2 border-gray-300 w-6/12">
-        <th class="border-2">N°</th>
-        <th class="border-2">Usuario</th>
-        <th class="border-2">Nombre</th>
-        <th class="border-2">Apellido</th>
-        <th class="border-2">Teléfono</th>
-        <th class="border-2">Correo</th>
-        <th class="border-2">Rol</th>
-        <th class="border-2">Opciones</th>
+        <th>N°</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Opciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-usuario>
-      <tr class="hover:bg-gray-300 cursor-pointer duration-300">
-        <td class="border-2">{{ rowIndex + 1 }}</td>
-        <td class="border-2">{{ usuario.usuario }}</td>
-        <td class="border-2">{{ usuario.nombre }}</td>
-        <td class="border-2">{{ usuario.apellido }}</td>
-        <td class="border-2">{{ usuario.telefono }}</td>
-        <td class="border-2">{{ usuario.email }}</td>
-        <td class="border-2">{{ usuario.rolName }}</td>
-        <td class="border-2">
+      <tr class="items">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ usuario.usuario }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.rolName }}</td>
+        <td>
           <div class="option">
             <button pButton icon="pi pi-pencil" class="edit" (click)="showEdit(usuario.id)"></button>
             <button pButton icon="pi pi-trash" class="delete" (click)="eliminarUsuario(usuario.id)"></button>
@@ -47,7 +47,7 @@
     </ng-template>
   </p-table>
   <app-agregar-editar-usuario *ngIf="displayAddEditModal" [displayAddEditModal]="displayAddEditModal"
-    [selectedUsuario]="selectedUsuario" (clickClose)="hideAddModal($event)"
+    [usuarioSeleccionado]="usuarioSeleccionado" (clickClose)="hideAddModal($event)"
     (clickAddEdit)="agregarEditarUsuario($event)"></app-agregar-editar-usuario>
   <p-confirmDialog header="Delete"></p-confirmDialog>
   <p-toast position="bottom-right"></p-toast>
